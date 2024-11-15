@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  font-family: "Sour Gummy", serif;
+}
+
+#layout {
+  background: linear-gradient(#e66465, #9198e5);
+}
+
+.section-left {
+  background-image: url("../../assets/images/kiem1.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.section-right {
+  background-image: url("../../assets/images/kiem2.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.title {
+  background-image: url("../../assets/images/giphy.gif");
+  background-clip: text;
+  background-position: center;
+  background-size: cover;
+  color: transparent;
+}
