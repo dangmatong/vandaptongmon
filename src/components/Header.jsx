@@ -23,10 +23,15 @@ const Header = () => {
       <h1 className="title font-bold text-3xl leading-normal md:text-6xl md:leading-normal">
         Vấn Đáp Tông Môn
       </h1>
-      <button onClick={changeSound}>{sound ? "🔊" : "🔇"}</button>
-      <p className="text-sm text-gray-700">
+      <p className="text-sm mb-1 text-gray-700">
         Nơi tập hợp những kiến thức trong giới tu tiên
       </p>
+      <button
+        className="text-2xl p-1 rounded-md shadow-md bg-gray-200 opacity-85"
+        onClick={changeSound}
+      >
+        {sound ? "🔊" : "🔇"}
+      </button>
     </div>
   );
 };

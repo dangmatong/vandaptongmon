@@ -7,6 +7,7 @@ import pasteImg from "../assets/images/bach-vo-thuong.png";
 import meodenAudio from "../assets/audio/Nhạc mèo đen.mp3";
 import { useStore } from "../utils/store";
 import useAudio from "../hooks/useAudio";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -78,6 +79,14 @@ const Home = () => {
     try {
       const text = await navigator.clipboard.readText();
       setText(text);
+
+      toast.dismiss();
+      toast("🚀 Đã dán nội dung", {
+        position: "top-right",
+        pauseOnFocusLoss: false,
+        closeOnClick: true,
+        autoClose: 1500,
+      });
     } catch (err) {
       console.error("Failed to read clipboard contents: ", err);
     }
@@ -86,6 +95,14 @@ const Home = () => {
   const handleRefresh = (evt) => {
     setText("");
     setData([]);
+
+    toast.dismiss();
+    toast("🚀 Đã xóa tìm kiếm", {
+      position: "top-right",
+      pauseOnFocusLoss: false,
+      closeOnClick: true,
+      autoClose: 1500,
+    });
   };
 
   return (
@@ -96,18 +113,28 @@ const Home = () => {
             <input
               value={text}
               className="w-full p-3 rounded-md"
-              placeholder="Nhập trên 3 từ tìm kiếm..."
+              placeholder="Nhập trên 3 từ liền kề..."
               type="text"
               onChange={(e) => changeSearch(e.target.value)}
             />
             <div className="my-2 text-center text-lg">
-              <p className="title-action font-bold">Ký năng thiên đạo</p>
+              <p className="title-action font-bold">Kỹ năng thiên đạo</p>
+              <p className="text-sm text-gray-700"> (Nhấn để sử dụng)</p>
+
               <div className="flex justify-center items-center my-2 gap-3">
-                <button title="Hủy hoại" onClick={handleRefresh}>
+                <button
+                  className="p-1 rounded-md shadow-md"
+                  title="Hủy hoại"
+                  onClick={handleRefresh}
+                >
                   <img className="h-12" src={freshImg} alt="Hủy hoại" />
                 </button>
                 <span> {"<=>"} </span>
-                <button title="Ký ức" onClick={handlePaste}>
+                <button
+                  className="p-1 rounded-md shadow-md"
+                  title="Ký ức"
+                  onClick={handlePaste}
+                >
                   <img className="h-12" src={pasteImg} alt="Nhận ký ức" />
                 </button>
               </div>
