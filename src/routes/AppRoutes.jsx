@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Import các trang (pages)
 import HomePage from "../pages/Home";
-import AboutPage from "../pages/About";
+import GanePage from "../pages/Game";
 import NotFoundPage from "../pages/NotFound";
 import Layout from "../components/Layout/Layout";
 
@@ -20,10 +20,10 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/about"
+          path="/game"
           element={
             <Layout>
-              <AboutPage />
+              <GanePage />
             </Layout>
           }
         />

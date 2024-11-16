@@ -1,10 +1,11 @@
 import AppRoutes from "./routes/AppRoutes";
+import { StoreProvider } from "./utils/store";
 
 function App() {
   return (
-    <div className="App">
+    <StoreProvider>
       <AppRoutes />
-    </div>
+    </StoreProvider>
   );
 }
 

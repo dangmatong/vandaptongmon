@@ -8,19 +8,14 @@ body {
   background: linear-gradient(#e66465, #9198e5);
 }
 
-.section-left {
-  background-image: url("../../assets/images/kiem1.png");
-  background-size: contain;
-  background-repeat: no-repeat;
+.title-action {
+  background: linear-gradient(#a2930c, #0b16df, #e32626);
+  background-clip: text;
   background-position: center;
+  background-size: contain;
+  color: transparent;
 }
 
-.section-right {
-  background-image: url("../../assets/images/kiem2.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
 .title {
   background-image: url("../../assets/images/giphy.gif");
   background-clip: text;
