@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 const Home = () => {
   const [data, setData] = useState([]);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [excelData, setExcelData] = useState([]);
   const { sound } = useStore();
@@ -46,14 +46,14 @@ const Home = () => {
 
   // handle input change value
   useEffect(() => {
-    if (text.length >= 3) {
+    if (text != undefined && text.length >= 3) {
       setLoading(true);
       if (sound) setPlaying(true);
     }
 
     const handler = setTimeout(() => {
       let dataFilter = [];
-      if (text.length >= 3) {
+      if (text != undefined && text.length >= 3) {
         dataFilter = excelData.filter((el) =>
           el.question.toLowerCase().includes(text.toLowerCase())
         );
@@ -107,11 +107,11 @@ const Home = () => {
 
   return (
     <div>
-      <div className="container py-5">
+      <div className="container py-5 h-full">
         <div className="flex flex-col items-center gap-5">
           <div className="w-full md:w-2/3">
             <input
-              value={text}
+              value={text || ""}
               className="w-full p-3 rounded-md"
               placeholder="Tìm kiếm chính xác hơn với 3 từ liền kề..."
               type="text"
@@ -165,9 +165,11 @@ const Home = () => {
               ) : (
                 <div className="p-4 bg-gray-200 text-gray-500 rounded-md w-full">
                   <span className="text-sm">
-                    {text.length >= 3
-                      ? "Cố gắng nào đạo hữu sắp tìm ra rồi 🤥🤥🤥."
-                      : "Hình như đạo hữu chưa nhập đủ 3 ký tự trở lên 😠😠😠."}
+                    {text != undefined
+                      ? text.length >= 3
+                        ? "Cố gắng nào đạo hữu sắp tìm ra rồi 🤥🤥🤥."
+                        : "Hình như đạo hữu chưa nhập đủ 3 ký tự trở lên 😠😠😠."
+                      : "Hãy nhập gì đó để bắt đầu tìm kiếm 🤗🤗🤗."}
                   </span>
                 </div>
               )}
