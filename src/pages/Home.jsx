@@ -113,7 +113,7 @@ const Home = () => {
             <input
               value={text}
               className="w-full p-3 rounded-md"
-              placeholder="Nhập trên 3 từ liền kề..."
+              placeholder="Tìm kiếm chính xác hơn với 3 từ liền kề..."
               type="text"
               onChange={(e) => changeSearch(e.target.value)}
             />
@@ -167,7 +167,7 @@ const Home = () => {
                   <span className="text-sm">
                     {text.length >= 3
                       ? "Cố gắng nào đạo hữu sắp tìm ra rồi 🤥🤥🤥."
-                      : "Hình như đạo hữu không xuất ra nổi 3 ý niệm 😠😠😠."}
+                      : "Hình như đạo hữu chưa nhập đủ 3 ký tự trở lên 😠😠😠."}
                   </span>
                 </div>
               )}

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "../pages/Home";
 import GanePage from "../pages/Game";
 import NotFoundPage from "../pages/NotFound";
+import ContributeComments from "../pages/ContributeComments";
 import Layout from "../components/Layout/Layout";
 
 const AppRoutes = () => {
@@ -24,6 +25,14 @@ const AppRoutes = () => {
           element={
             <Layout>
               <GanePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contribute-comments"
+          element={
+            <Layout>
+              <ContributeComments />
             </Layout>
           }
         />
