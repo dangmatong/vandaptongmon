@@ -26,13 +26,13 @@ const Home = () => {
     const loadExcel = async () => {
       try {
         const rs = await fetchExcelData();
-        const filteredData = rs.filter((item) => item.A !== undefined);
-        const formatData = filteredData.map((el) => ({
-          id: el.__EMPTY,
-          movieName: el.A || "",
-          question: el.B || "",
-          answer: el.C || "",
+        const formatData = rs.map((el, idx) => ({
+          id: "question_" + idx,
+          movieName: el["Tên phim"] || "",
+          question: el["Câu hỏi"] || "",
+          answer: el["Đáp án"] || "",
         }));
+
         setExcelData(formatData);
       } catch (error) {
         console.error("Failed to load users:", error);
