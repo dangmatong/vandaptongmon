@@ -1,0 +1,16 @@
+{
+  "routes": [
+    {
+      "src": "/",
+      "des": "/"
+    },
+    {
+      "src": "/contribute-comments",
+      "des": "/"
+    },
+    {
+      "src": "/game",
+      "des": "/"
+    }
+  ]
+}
