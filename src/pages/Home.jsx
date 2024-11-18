@@ -4,7 +4,8 @@ import { fetchExcelData } from "../controllers/ExcelController";
 import ripple from "../assets/images/Ripple.gif";
 import freshImg from "../assets/images/hac-vo-thuong.png";
 import pasteImg from "../assets/images/bach-vo-thuong.png";
-import meodenAudio from "../assets/audio/Nhạc mèo đen.mp3";
+import refreshAudio from "../assets/audio/woosh-230554.mp3";
+
 import { useStore } from "../utils/store";
 import useAudio from "../hooks/useAudio";
 import { toast } from "react-toastify";
@@ -15,7 +16,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [excelData, setExcelData] = useState([]);
   const { sound } = useStore();
-  const [playing, setPlaying] = useAudio(meodenAudio);
+  const [soundWoosh, setSoundWoosh] = useAudio(refreshAudio);
 
   const changeSearch = (val) => {
     setText(val);
@@ -48,7 +49,6 @@ const Home = () => {
   useEffect(() => {
     if (text != undefined && text.length >= 3) {
       setLoading(true);
-      if (sound) setPlaying(true);
     }
 
     const handler = setTimeout(() => {
@@ -64,13 +64,12 @@ const Home = () => {
 
     return () => {
       clearTimeout(handler);
-      setPlaying(false);
     };
   }, [text]);
 
   useEffect(() => {
     if (!sound) {
-      setPlaying(false);
+      setSoundWoosh(false);
     }
   }, [sound]);
 
@@ -79,6 +78,7 @@ const Home = () => {
     try {
       const text = await navigator.clipboard.readText();
       setText(text);
+      if (sound) setSoundWoosh(true);
 
       toast.dismiss();
       toast("🚀 Đã dán nội dung", {
@@ -95,6 +95,7 @@ const Home = () => {
   const handleRefresh = (evt) => {
     setText("");
     setData([]);
+    if (sound) setSoundWoosh(true);
 
     toast.dismiss();
     toast("🚀 Đã xóa tìm kiếm", {

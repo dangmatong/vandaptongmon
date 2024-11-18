@@ -1,11 +1,24 @@
 import { useStore } from "../utils/store";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+
+import meodenAudio from "../assets/audio/Nhạc mèo đen.mp3";
+import useAudio from "../hooks/useAudio";
 
 const Header = () => {
   const { sound, setSound } = useStore();
+  const [playing, setPlaying] = useAudio(meodenAudio, true, 0.2);
   const changeSound = () => {
     setSound(!sound);
   };
+
+  useEffect(() => {
+    setPlaying(sound);
+
+    return () => {
+      setPlaying(false);
+    };
+  }, [sound]);
 
   return (
     <div className="w-full text-center px-3 py-5">

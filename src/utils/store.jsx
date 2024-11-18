@@ -8,8 +8,8 @@ export const StoreProvider = ({ children }) => {
 
   useEffect(() => {
     let text = "🚀 ";
-    if (sound) text += "Đã bật nhạc khi tìm kiếm.";
-    else text += "Đã tắt nhạc khi tìm kiếm.";
+    if (sound) text += "Đã bật âm thanh";
+    else text += "Đã tắt âm thanh";
 
     toast.dismiss();
     toast(text, {
