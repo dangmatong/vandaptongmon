@@ -2,7 +2,7 @@ const ContributeComments = () => {
   return (
     <div className="pb-8">
       <iframe
-        className="min-h-screen w-full"
+        className="min-h-[1200px] w-full"
         src="https://docs.google.com/forms/d/e/1FAIpQLSdqWaoSx5itXDvRSS0OCtXzPOPTLsLZoeNg_HdNhOySPrXd_A/viewform?embedded=true"
       >
         Đang tải…

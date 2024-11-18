@@ -2,15 +2,15 @@
   "routes": [
     {
       "src": "/",
-      "des": "/"
+      "dest": "/"
     },
     {
       "src": "/contribute-comments",
-      "des": "/"
+      "dest": "/"
     },
     {
       "src": "/game",
-      "des": "/"
+      "dest": "/"
     }
   ]
 }
