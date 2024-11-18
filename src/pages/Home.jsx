@@ -113,7 +113,7 @@ const Home = () => {
             <input
               value={text || ""}
               className="w-full p-3 rounded-md"
-              placeholder="Tìm kiếm chính xác hơn với 3 từ liền kề..."
+              placeholder="Chính xác hơn với 3 từ liền kề..."
               type="text"
               onChange={(e) => changeSearch(e.target.value)}
             />
