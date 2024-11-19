@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchExcelData } from "../controllers/ExcelController";
+import { highlightText } from "../utils";
 
 import ripple from "../assets/images/Ripple.gif";
 import freshImg from "../assets/images/hac-vo-thuong.png";
@@ -7,7 +8,7 @@ import pasteImg from "../assets/images/bach-vo-thuong.png";
 import refreshAudio from "../assets/audio/woosh-230554.mp3";
 
 import { useStore } from "../utils/store";
-import useAudio from "../hooks/useAudio";
+import useAudioPlayer from "../hooks/useAudioPlayer";
 import { toast } from "react-toastify";
 
 const Home = () => {
@@ -16,7 +17,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [excelData, setExcelData] = useState([]);
   const { sound } = useStore();
-  const [soundWoosh, setSoundWoosh] = useAudio(refreshAudio);
+  const { restart, pause } = useAudioPlayer(refreshAudio, false);
 
   const changeSearch = (val) => {
     setText(val);
@@ -60,7 +61,7 @@ const Home = () => {
       }
       setLoading(false);
       setData(dataFilter);
-    }, 300);
+    }, 200);
 
     return () => {
       clearTimeout(handler);
@@ -69,7 +70,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!sound) {
-      setSoundWoosh(false);
+      pause(false);
     }
   }, [sound]);
 
@@ -77,8 +78,11 @@ const Home = () => {
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText();
-      setText(text);
-      if (sound) setSoundWoosh(true);
+      if (sound) restart();
+
+      setTimeout(() => {
+        setText(text);
+      }, 100);
 
       toast.dismiss();
       toast("🚀 Đã dán nội dung", {
@@ -93,9 +97,12 @@ const Home = () => {
   };
 
   const handleRefresh = (evt) => {
-    setText("");
-    setData([]);
-    if (sound) setSoundWoosh(true);
+    if (sound) restart();
+
+    setTimeout(() => {
+      setText("");
+      setData([]);
+    }, 100);
 
     toast.dismiss();
     toast("🚀 Đã xóa tìm kiếm", {
@@ -152,7 +159,7 @@ const Home = () => {
                         [Film] - {item.movieName}
                       </h3>
                       <h4 className="font-bold text-orange-500">
-                        [?] - {item.question}
+                        [?] - {highlightText(item.question, text)}
                       </h4>
                       <p>
                         {"=>"}{" "}

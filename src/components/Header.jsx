@@ -3,20 +3,21 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 import meodenAudio from "../assets/audio/Nhạc mèo đen.mp3";
-import useAudio from "../hooks/useAudio";
+import useAudioPlayer from "../hooks/useAudioPlayer";
 
 const Header = () => {
   const { sound, setSound } = useStore();
-  const [playing, setPlaying] = useAudio(meodenAudio, true, 0.2);
+  const { play, pause } = useAudioPlayer(meodenAudio, true, 0.2);
   const changeSound = () => {
     setSound(!sound);
   };
 
   useEffect(() => {
-    setPlaying(sound);
+    if (sound) play();
+    else pause();
 
     return () => {
-      setPlaying(false);
+      pause();
     };
   }, [sound]);
 
