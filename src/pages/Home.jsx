@@ -175,7 +175,7 @@ const Home = () => {
                   <span className="text-sm">
                     {text != undefined
                       ? text.length >= 3
-                        ? "Cố gắng nào đạo hữu sắp tìm ra rồi 🤥🤥🤥."
+                        ? `Đừng nản nếu không tìm thấy, hãy nhập một số từ nổi bật liền kề trong câu hỏi để tìm😊(nếu không tìm ra hay đóng góp ý kiến nhé😘😘😘).`
                         : "Hình như đạo hữu chưa nhập đủ 3 ký tự trở lên 😠😠😠."
                       : "Hãy nhập gì đó để bắt đầu tìm kiếm 🤗🤗🤗."}
                   </span>
