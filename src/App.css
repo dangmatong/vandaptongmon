@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "DVN-Notch";
+  src: url("./assets/fonts/DVN-Notch.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "UVNButLong2";
+  src: url("./assets/fonts/UVN-But-Long-2.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
