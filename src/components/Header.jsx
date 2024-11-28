@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <div className="w-full text-center px-3 py-5">
       <div className="text-sm">
-        <div className="flex justify-center gap-3 font-bold text-red-600">
+        <div className="flex justify-center gap-3 font-bold text-rose-600">
           <Link className="underline" to="/">
             Vấn đáp
           </Link>

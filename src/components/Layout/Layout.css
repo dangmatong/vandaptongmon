@@ -5,10 +5,14 @@ body {
 }
 
 #layout {
-  /* background: linear-gradient(#e66465, #9198e5); */
+  background: linear-gradient(#e66465, #9198e5);
   background-image: url("../../assets/images/anime_girls_1.jpg");
   background-size: cover;
   background-position: center;
+}
+
+.bg-main {
+  background-color: rgba(46, 138, 138, 0.5);
 }
 
 .title-action {
