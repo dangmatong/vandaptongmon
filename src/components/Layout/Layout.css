@@ -5,14 +5,17 @@ body {
 }
 
 #layout {
-  background: linear-gradient(#e66465, #9198e5);
+  /* background: linear-gradient(#e66465, #9198e5); */
+  background-image: url("../../assets/images/anime_girls_1.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .title-action {
-  background: linear-gradient(#a2930c, #0b16df, #e32626);
+  background: linear-gradient(#9e9013, #0b16df, #e32626);
   background-clip: text;
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   color: transparent;
 }
 
@@ -20,6 +23,6 @@ body {
   background-image: url("../../assets/images/giphy.gif");
   background-clip: text;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   color: transparent;
 }
