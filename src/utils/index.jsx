@@ -37,3 +37,45 @@ export const highlightMatch = (line, term) => {
     </>
   );
 };
+
+const findAllOccurrences = (line, term) => {
+  const cleanLine = removeDiacritics(line).toLowerCase();
+  const cleanTerm = removeDiacritics(term).toLowerCase();
+  let positions = [];
+  let startIndex = 0;
+
+  while (startIndex < cleanLine.length) {
+    const index = cleanLine.indexOf(cleanTerm, startIndex);
+    if (index === -1) break;
+    positions.push(index);
+    startIndex = index + cleanTerm.length; // Di chuyển qua từ khóa vừa tìm thấy
+  }
+  return positions;
+};
+
+export const highlightMatchesWithPositions = (line, term) => {
+  if (!term) return line; // Nếu không có từ khóa, trả về chuỗi gốc
+
+  const positions = findAllOccurrences(line, term);
+  if (positions.length === 0) return line; // Nếu không tìm thấy, trả về chuỗi gốc
+
+  const elements = [];
+  let currentIndex = 0;
+
+  positions.forEach((pos, index) => {
+    // Thêm phần trước đoạn khớp
+    elements.push(line.slice(currentIndex, pos));
+    // Thêm đoạn khớp được highlight
+    elements.push(
+      <span key={index} className="bg-yellow-200 font-bold">
+        {line.slice(pos, pos + term.length)}
+      </span>
+    );
+    // Cập nhật chỉ mục hiện tại
+    currentIndex = pos + term.length;
+  });
+
+  // Thêm phần còn lại của chuỗi
+  elements.push(line.slice(currentIndex));
+  return elements;
+};

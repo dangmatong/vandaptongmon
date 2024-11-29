@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchExcelData } from "../controllers/ExcelController";
-import { highlightMatch, removeDiacritics } from "../utils";
+import { removeDiacritics, highlightMatchesWithPositions } from "../utils";
 
 import ripple from "../assets/images/Ripple.gif";
 import freshImg from "../assets/images/hac-vo-thuong.png";
@@ -98,7 +98,7 @@ const Home = () => {
     }
   };
 
-  const handleRefresh = (evt) => {
+  const handleRefresh = () => {
     if (sound) restart();
 
     setTimeout(() => {
@@ -161,7 +161,8 @@ const Home = () => {
                         [Film] - {item.movieName}
                       </h3>
                       <h4 className="font-bold text-orange-500">
-                        [?] - {highlightMatch(item.question, text)}
+                        [?] -{" "}
+                        {highlightMatchesWithPositions(item.question, text)}
                       </h4>
                       <p>
                         {"=>"}{" "}
