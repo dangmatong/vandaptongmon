@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchExcelData } from "../controllers/ExcelController";
-import { highlightText } from "../utils";
+import { highlightMatch, removeDiacritics } from "../utils";
 
 import ripple from "../assets/images/Ripple.gif";
 import freshImg from "../assets/images/hac-vo-thuong.png";
@@ -56,7 +56,9 @@ const Home = () => {
       let dataFilter = [];
       if (text != undefined && text.length >= 3) {
         dataFilter = excelData.filter((el) =>
-          el.question.toLowerCase().includes(text.toLowerCase())
+          removeDiacritics(el.question.toLowerCase()).includes(
+            removeDiacritics(text.toLowerCase())
+          )
         );
       }
       setLoading(false);
@@ -159,7 +161,7 @@ const Home = () => {
                         [Film] - {item.movieName}
                       </h3>
                       <h4 className="font-bold text-orange-500">
-                        [?] - {highlightText(item.question, text)}
+                        [?] - {highlightMatch(item.question, text)}
                       </h4>
                       <p>
                         {"=>"}{" "}
