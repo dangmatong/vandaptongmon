@@ -120,13 +120,28 @@ const Home = () => {
       <div className="container py-5 h-full">
         <div className="flex flex-col items-center gap-5">
           <div className="w-full md:w-2/3">
-            <input
-              value={text || ""}
-              className="w-full p-3 rounded-md"
-              placeholder="Chính xác hơn với 3 từ liền kề..."
-              type="text"
-              onChange={(e) => changeSearch(e.target.value)}
-            />
+            <div>
+              <div className="relative">
+                <input
+                  id="search"
+                  value={text || ""}
+                  className="peer w-full drop-shadow-md p-3 rounded-md ring-2 text-orange-500 ring-orange-400 focus:text-red-500 focus:ring-red-400 focus:outline-none"
+                  placeholder="Nhập tìm kiếm..."
+                  type="text"
+                  onChange={(e) => changeSearch(e.target.value)}
+                />
+                <label
+                  htmlFor="search"
+                  className="absolute border-x-2 border-orange-400 rounded-md text-sm text-orange-500 duration-200 transform -translate-y-4 scale-80 top-1 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:border-x-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-80 peer-focus:-translate-y-4 peer-focus:border-x-2 peer-focus:drop-shadow-md peer-focus:text-red-500 peer-focus:border-red-400 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                >
+                  Nhấp vào để điền từ tìm kiếm
+                </label>
+              </div>
+              <span className="text-sm text-gray-700">
+                <span className="text-red-600">(*)</span> Chính xác hơn với 3 từ
+                liền kề.
+              </span>
+            </div>
             <div className="my-2 text-center text-lg">
               <p className="title-action font-bold">Kỹ năng thiên đạo</p>
               <p className="text-sm text-gray-700"> (Nhấn để sử dụng)</p>
