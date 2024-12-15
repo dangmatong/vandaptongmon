@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { fetchExcelData } from "../controllers/ExcelController";
-import { removeDiacritics, highlightMatchesWithPositions } from "../utils";
+import {
+  removeDiacritics,
+  highlightMatchesWithPositions,
+  addSpaceBeforeQuestionMark,
+} from "../utils";
 
 import ripple from "../assets/images/Ripple.gif";
 import freshImg from "../assets/images/hac-vo-thuong.png";
@@ -48,16 +52,17 @@ const Home = () => {
 
   // handle input change value
   useEffect(() => {
-    if (text != undefined && text.length >= 3) {
+    const newText = addSpaceBeforeQuestionMark(text ? text.trim() : "");
+    if (newText != undefined && newText.length >= 3) {
       setLoading(true);
     }
 
     const handler = setTimeout(() => {
       let dataFilter = [];
-      if (text != undefined && text.length >= 3) {
+      if (newText != undefined && newText.length >= 3) {
         dataFilter = excelData.filter((el) =>
           removeDiacritics(el.question.toLowerCase()).includes(
-            removeDiacritics(text.toLowerCase())
+            removeDiacritics(newText.toLowerCase())
           )
         );
       }
@@ -83,7 +88,7 @@ const Home = () => {
       if (sound) restart();
 
       setTimeout(() => {
-        setText(text);
+        changeSearch(text);
       }, 100);
 
       toast.dismiss();
@@ -102,7 +107,7 @@ const Home = () => {
     if (sound) restart();
 
     setTimeout(() => {
-      setText("");
+      changeSearch("");
       setData([]);
     }, 100);
 

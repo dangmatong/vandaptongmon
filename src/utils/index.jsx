@@ -5,6 +5,12 @@ export const removeDiacritics = (str) =>
     .replace(/đ/g, "d")
     .replace(/Đ/g, "D");
 
+export const addSpaceBeforeQuestionMark = (input) => {
+  return input.replace(/(\S\?)/g, (match, group) => {
+    return group[0] + " ?";
+  });
+};
+
 export const highlightText = (line, term) => {
   if (!term) return line; // Nếu không có từ khóa, trả về dòng gốc
   const parts = line.split(new RegExp(`(${term})`, "gi")); // Tách dòng theo từ khóa
@@ -39,8 +45,9 @@ export const highlightMatch = (line, term) => {
 };
 
 const findAllOccurrences = (line, term) => {
+  const newTerm = addSpaceBeforeQuestionMark(term ? term.trim() : "");
   const cleanLine = removeDiacritics(line).toLowerCase();
-  const cleanTerm = removeDiacritics(term).toLowerCase();
+  const cleanTerm = removeDiacritics(newTerm).toLowerCase();
   let positions = [];
   let startIndex = 0;
 
@@ -54,9 +61,10 @@ const findAllOccurrences = (line, term) => {
 };
 
 export const highlightMatchesWithPositions = (line, term) => {
-  if (!term) return line; // Nếu không có từ khóa, trả về chuỗi gốc
+  const newTerm = addSpaceBeforeQuestionMark(term ? term.trim() : "");
+  if (!newTerm) return line; // Nếu không có từ khóa, trả về chuỗi gốc
 
-  const positions = findAllOccurrences(line, term);
+  const positions = findAllOccurrences(line, newTerm);
   if (positions.length === 0) return line; // Nếu không tìm thấy, trả về chuỗi gốc
 
   const elements = [];
@@ -68,11 +76,11 @@ export const highlightMatchesWithPositions = (line, term) => {
     // Thêm đoạn khớp được highlight
     elements.push(
       <span key={index} className="bg-yellow-200 font-bold">
-        {line.slice(pos, pos + term.length)}
+        {line.slice(pos, pos + newTerm.length)}
       </span>
     );
     // Cập nhật chỉ mục hiện tại
-    currentIndex = pos + term.length;
+    currentIndex = pos + newTerm.length;
   });
 
   // Thêm phần còn lại của chuỗi
