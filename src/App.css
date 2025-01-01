@@ -9,3 +9,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+canvas {
+  width: 100%;
+  cursor: pointer;
+}

@@ -32,7 +32,7 @@ const Header = () => {
             Đóng góp ý kiến
           </Link>
           <Link className="underline" to="/game">
-            Game Pikachu
+            Luckey Wheel
           </Link>
         </div>
       </div>
