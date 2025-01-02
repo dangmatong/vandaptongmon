@@ -1,7 +1,8 @@
-import WheelComponent from "../components/Wheel";
 import "react-wheel-of-prizes/dist/index.css";
 import Modal from "react-modal";
 import { useState } from "react";
+import WheelComponent from "../components/Wheel";
+import GiftBoxAnimation from "../components/GiftBoxAnimation";
 
 const customStyles = {
   content: {
@@ -39,28 +40,52 @@ const segColors = [
 
 const About = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [resultGift, setResultGift] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
   const [result, setResult] = useState("");
+  const rows = [];
+  for (let i = 0; i < 8; i++) {
+    rows.push(i);
+  }
+
+  // modal
   function openModal() {
     setIsOpen(true);
   }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // subtitle.style.color = '#f00';
-  }
-
   function closeModal() {
     setIsOpen(false);
   }
 
+  // luckey wheel
   const onFinished = (winner) => {
     setResult(winner);
     openModal();
   };
 
+  // box gift
+  const handleUpdateResultBox = (idx, val) => {
+    let rs = [...resultGift];
+    rs[idx] = val;
+    setResultGift(rs);
+  };
+
   return (
-    <div className="flex justify-center p-4">
-      <div className="relative">
+    <div>
+      <div className="text-center text-lg font-bold text-gray-600 pt-6">
+        ------- Đập hộp mù -------
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {rows.map((el) => (
+          <GiftBoxAnimation
+            key={el}
+            idx={el}
+            onUpdate={handleUpdateResultBox}
+          ></GiftBoxAnimation>
+        ))}
+      </div>
+      <div className="text-center text-lg font-bold text-gray-600 pt-6">
+        ------ Vòng quay may mắn ------
+      </div>
+      <div className="flex justify-center p-4">
         <WheelComponent
           segments={segments}
           segColors={segColors}
@@ -71,9 +96,9 @@ const About = () => {
           isOnlyOnce={true}
         />
       </div>
+
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         style={customStyles}
         contentLabel="Example Modal"
       >

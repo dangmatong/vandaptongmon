@@ -15,7 +15,7 @@ const WheelComponent = ({
   const [isFinished, setFinished] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   let timerHandle = 0;
-  let defaultTimerHandle = 0;
+  let defaultTimerHandle = null;
   const timerDelay = segments.length;
   let angleCurrent = 0;
   let angleDelta = 0;
@@ -50,14 +50,17 @@ const WheelComponent = ({
     }
 
     // default spin
+    angleDelta = 0;
+    angleCurrent = 0;
+    if (defaultTimerHandle) clearInterval(defaultTimerHandle);
     defaultTimerHandle = setInterval(onDefaultSpin, timerDelay);
 
     canvas.addEventListener("click", spin, false);
     canvasContext = canvas.getContext("2d");
   };
+
   const spin = () => {
     if (isFirst) setIsFirst(false);
-
     if (defaultTimerHandle) clearInterval(defaultTimerHandle);
 
     isStarted = true;
@@ -69,6 +72,7 @@ const WheelComponent = ({
       timerHandle = setInterval(onTimerTick, timerDelay);
     }
   };
+
   const onDefaultSpin = () => {
     draw();
     let progress = 0;
@@ -76,8 +80,8 @@ const WheelComponent = ({
     angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2);
 
     angleCurrent += angleDelta;
-    while (angleCurrent >= Math.PI * 2) angleCurrent -= Math.PI * 2;
   };
+
   const onTimerTick = () => {
     frames++;
     draw();
