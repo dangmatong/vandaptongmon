@@ -12,6 +12,7 @@ const WheelComponent = ({
 }) => {
   let currentSegment = "";
   let isStarted = false;
+  let slowEndSpin = [true, true, true, true];
   const [isFinished, setFinished] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   let timerHandle = 0;
@@ -23,7 +24,7 @@ const WheelComponent = ({
   let canvasContext = null;
   let maxSpeed = Math.PI / `${segments.length}`;
   const upTime = segments.length * 100;
-  const downTime = segments.length * 600;
+  const downTime = segments.length * 1500;
   let spinStart = 0;
   let frames = 0;
   const centerX = 300;
@@ -53,27 +54,28 @@ const WheelComponent = ({
     angleDelta = 0;
     angleCurrent = 0;
     if (defaultTimerHandle) clearInterval(defaultTimerHandle);
-    defaultTimerHandle = setInterval(onDefaultSpin, timerDelay);
+    defaultTimerHandle = setInterval(defaultSpin, timerDelay);
 
     canvas.addEventListener("click", spin, false);
     canvasContext = canvas.getContext("2d");
   };
 
   const spin = () => {
+    slowEndSpin = [true, true, true, true];
     if (isFirst) setIsFirst(false);
     if (defaultTimerHandle) clearInterval(defaultTimerHandle);
 
     isStarted = true;
     if (timerHandle === 0) {
       spinStart = new Date().getTime();
-      // maxSpeed = Math.PI / ((segments.length*2) + Math.random())
-      maxSpeed = Math.PI / segments.length;
+      // maxSpeed = Math.PI / (segments.length * 2 + Math.random());
+      maxSpeed = Math.PI / (segments.length + Math.random());
       frames = 0;
       timerHandle = setInterval(onTimerTick, timerDelay);
     }
   };
 
-  const onDefaultSpin = () => {
+  const defaultSpin = () => {
     draw();
     let progress = 0;
     progress = upTime + 10 / upTime;
@@ -105,6 +107,23 @@ const WheelComponent = ({
         }
       } else {
         progress = duration / downTime;
+        if (slowEndSpin[0] && progress >= 0.4 && progress < 0.5) {
+          maxSpeed = maxSpeed / 2;
+          slowEndSpin[0] = false;
+        }
+        if (slowEndSpin[1] && progress >= 0.5 && progress < 0.6) {
+          maxSpeed = maxSpeed / 2.5;
+          slowEndSpin[1] = false;
+        }
+        if (slowEndSpin[2] && progress >= 0.6 && progress < 0.7) {
+          maxSpeed = maxSpeed / 3;
+          slowEndSpin[2] = false;
+        }
+        if (slowEndSpin[3] && progress >= 0.7) {
+          maxSpeed = maxSpeed / 3.5;
+          slowEndSpin[3] = false;
+        }
+
         angleDelta =
           maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
       }
@@ -240,7 +259,9 @@ const WheelComponent = ({
           viewBox="-100 -100 200 200"
           filter="drop-shadow(0 0 10px #000)"
           fill="white"
-          onClick={spin}
+          onClick={() => {
+            document.getElementById("canvas").click();
+          }}
         >
           <defs>
             <path id="curve-top" d="M -52 0 A 1 1 0 0 1 52 0"></path>

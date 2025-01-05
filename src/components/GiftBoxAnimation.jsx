@@ -40,6 +40,7 @@ export default function GiftBoxAnimation({ idx, onUpdate }) {
         setState({ rotated: "rotated" });
       }, 1000);
     } else {
+      return;
       setState(init_state);
     }
     let moving = move === "move" ? "" : "move";
@@ -54,7 +55,7 @@ export default function GiftBoxAnimation({ idx, onUpdate }) {
         ""
       )}
       <div
-        className={`text-gray-800 bg-white rounded-md px-2 py-1 kuku ${jump}`}
+        className={`text-gray-800 bg-[rgba(255,255,255,0.7)] rounded-full px-3 py-1 kuku ${jump}`}
       >
         <span>{score}</span>
       </div>
