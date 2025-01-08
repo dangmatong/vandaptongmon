@@ -10,6 +10,7 @@ const WheelComponent = ({
   buttonText,
   isOnlyOnce,
 }) => {
+  let colorSelected = 0;
   let currentSegment = "";
   let isStarted = false;
   let slowEndSpin = [true, true, true, true];
@@ -22,9 +23,9 @@ const WheelComponent = ({
   let angleDelta = 0;
   const size = 290;
   let canvasContext = null;
-  let maxSpeed = Math.PI / `${segments.length}`;
+  let maxSpeed = Math.PI / segments.length;
   const upTime = segments.length * 100;
-  const downTime = segments.length * 1500;
+  const downTime = segments.length * 1350;
   let spinStart = 0;
   let frames = 0;
   const centerX = 300;
@@ -52,7 +53,6 @@ const WheelComponent = ({
 
     // default spin
     angleDelta = 0;
-    angleCurrent = 0;
     if (defaultTimerHandle) clearInterval(defaultTimerHandle);
     defaultTimerHandle = setInterval(defaultSpin, timerDelay);
 
@@ -68,8 +68,8 @@ const WheelComponent = ({
     isStarted = true;
     if (timerHandle === 0) {
       spinStart = new Date().getTime();
-      // maxSpeed = Math.PI / (segments.length * 2 + Math.random());
-      maxSpeed = Math.PI / (segments.length + Math.random());
+      // maxSpeed = (Math.random() * 10 + 1.5) / 10;
+      maxSpeed = 0.6;
       frames = 0;
       timerHandle = setInterval(onTimerTick, timerDelay);
     }
@@ -77,11 +77,11 @@ const WheelComponent = ({
 
   const defaultSpin = () => {
     draw();
-    let progress = 0;
-    progress = upTime + 10 / upTime;
+    let progress = upTime + 10 / upTime;
     angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2);
 
     angleCurrent += angleDelta;
+    while (angleCurrent >= Math.PI * 2) angleCurrent -= Math.PI * 2;
   };
 
   const onTimerTick = () => {
@@ -107,20 +107,20 @@ const WheelComponent = ({
         }
       } else {
         progress = duration / downTime;
-        if (slowEndSpin[0] && progress >= 0.4 && progress < 0.5) {
-          maxSpeed = maxSpeed / 2;
+        if (slowEndSpin[0] && progress >= 0.3 && progress < 0.4) {
+          maxSpeed = maxSpeed / (1.2 + Math.random());
           slowEndSpin[0] = false;
         }
-        if (slowEndSpin[1] && progress >= 0.5 && progress < 0.6) {
-          maxSpeed = maxSpeed / 2.5;
+        if (slowEndSpin[1] && progress >= 0.4 && progress < 0.5) {
+          maxSpeed = maxSpeed / (2 + Math.random());
           slowEndSpin[1] = false;
         }
-        if (slowEndSpin[2] && progress >= 0.6 && progress < 0.7) {
-          maxSpeed = maxSpeed / 3;
+        if (slowEndSpin[2] && progress >= 0.5 && progress < 0.6) {
+          maxSpeed = maxSpeed / (1 + Math.random());
           slowEndSpin[2] = false;
         }
-        if (slowEndSpin[3] && progress >= 0.7) {
-          maxSpeed = maxSpeed / 3.5;
+        if (slowEndSpin[3] && progress >= 0.6) {
+          maxSpeed = maxSpeed / (2 + Math.random());
           slowEndSpin[3] = false;
         }
 
@@ -162,7 +162,8 @@ const WheelComponent = ({
     ctx.arc(centerX, centerY, size, lastAngle, angle, false);
     ctx.lineTo(centerX, centerY);
     ctx.closePath();
-    ctx.fillStyle = segColors[key];
+    ctx.fillStyle =
+      segColors[key < segColors.length ? key : (key % segColors.length) + 1];
     ctx.fill();
     ctx.stroke();
     ctx.save();
@@ -194,7 +195,7 @@ const WheelComponent = ({
     ctx.beginPath();
     ctx.arc(centerX, centerY, 50, 0, PI2, false);
     ctx.closePath();
-    ctx.fillStyle = primaryColor || "black";
+    ctx.fillStyle = segColors[colorSelected] || "black";
     ctx.lineWidth = 10;
     ctx.strokeStyle = contrastColor || "white";
     ctx.fill();
@@ -236,6 +237,7 @@ const WheelComponent = ({
     ctx.fillStyle = primaryColor || "black";
     ctx.font = "bold 2.5em proxima-nova";
     currentSegment = segments[i];
+    colorSelected = i < segColors.length ? i : (i % segColors.length) + 1;
     isStarted &&
       ctx.fillText(currentSegment, centerX + 10, centerY + size + 50);
   };

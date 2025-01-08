@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { useState } from "react";
 import WheelComponent from "../components/Wheel";
 import GiftBoxAnimation from "../components/GiftBoxAnimation";
+import { confettiFireworks } from "../utils";
 
 const customStyles = {
   content: {
@@ -59,6 +60,7 @@ const About = () => {
   const onFinished = (winner) => {
     setResult(winner);
     openModal();
+    confettiFireworks();
   };
 
   // box gift
@@ -107,7 +109,7 @@ const About = () => {
             <h2 className="text-xl font-bold">Kết quả thưởng</h2>
             <button onClick={closeModal}>X</button>
           </div>
-          <div className="body">
+          <div className="body ">
             {result.includes("VND") ? "Bạn nhận được: " : ""}
             {result}
           </div>

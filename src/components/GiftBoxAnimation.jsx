@@ -1,6 +1,5 @@
 import { useReducer, useState } from "react";
-import Confetti from "react-confetti";
-import { useWindowSize } from "react-use";
+import { confettiSchoolPride } from "../utils";
 
 import box from "../assets/images/box.png";
 import boxLid from "../assets/images/box-lid.png";
@@ -12,7 +11,6 @@ const init_state = {
   rotating: "",
 };
 export default function GiftBoxAnimation({ idx, onUpdate }) {
-  const { width, height } = useWindowSize();
   const [score, setScore] = useState(0);
   const [state, setState] = useReducer(
     (state, new_state) => ({
@@ -32,13 +30,14 @@ export default function GiftBoxAnimation({ idx, onUpdate }) {
       setState({ rotating: "rotating" });
       setTimeout(() => {
         setState({ jump: "jump" });
+        confettiSchoolPride();
         sc = Math.floor(Math.random() * 10) + 1;
         onUpdate(idx, sc);
         setScore(sc);
       }, 300);
       setTimeout(() => {
         setState({ rotated: "rotated" });
-      }, 1000);
+      }, 100);
     } else {
       return;
       setState(init_state);
@@ -48,26 +47,23 @@ export default function GiftBoxAnimation({ idx, onUpdate }) {
   }
 
   return (
-    <div className="gift-box flex justify-center items-center relative pt-20">
-      {jump === "jump" ? (
-        <Confetti width={width} height={height}></Confetti>
-      ) : (
-        ""
-      )}
-      <div
-        className={`text-gray-800 bg-[rgba(255,255,255,0.7)] rounded-full px-3 py-1 kuku ${jump}`}
-      >
-        <span>{score}</span>
-      </div>
-      <div className="text-center relative">
-        <img
-          className={`lid ${move} ${rotating} ${rotated}`}
-          src={boxLid}
-          alt="box-lid"
-        />
-        <button className="box" onClick={() => animate()}>
-          <img src={box} alt="box" />
-        </button>
+    <div className="gift-box pt-20">
+      <div className="flex justify-center items-center relative">
+        <div
+          className={`text-gray-800 bg-[rgba(255,255,255,0.7)] rounded-full px-3 py-1 kuku ${jump}`}
+        >
+          <span>{score}</span>
+        </div>
+        <div className="text-center relative">
+          <img
+            className={`lid ${move} ${rotating} ${rotated}`}
+            src={boxLid}
+            alt="box-lid"
+          />
+          <button className="box" onClick={() => animate()}>
+            <img src={box} alt="box" />
+          </button>
+        </div>
       </div>
     </div>
   );
