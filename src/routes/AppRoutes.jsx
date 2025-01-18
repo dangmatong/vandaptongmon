@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 // Import các trang (pages)
 import HomePage from "../pages/Home";
@@ -6,6 +7,7 @@ import GanePage from "../pages/Game";
 import NotFoundPage from "../pages/NotFound";
 import ContributeComments from "../pages/ContributeComments";
 import Layout from "../components/Layout/Layout";
+import Login from "../pages/Login";
 
 const AppRoutes = () => {
   return (
@@ -23,9 +25,11 @@ const AppRoutes = () => {
         <Route
           path="/game"
           element={
-            <Layout>
-              <GanePage />
-            </Layout>
+            <ProtectedRoute>
+              <Layout>
+                <GanePage />
+              </Layout>
+            </ProtectedRoute>
           }
         />
         <Route
@@ -36,6 +40,7 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+        <Route path="/login" element={<Login></Login>} />
 
         {/* Route không tìm thấy */}
         <Route path="*" element={<NotFoundPage />} />

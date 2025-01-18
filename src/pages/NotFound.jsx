@@ -1,5 +1,9 @@
 const NotFound = () => {
-  return <div>NotFound</div>;
+  return (
+    <div className="flex justify-center items-center h-screen uppercase">
+      Page not Found!
+    </div>
+  );
 };
 
 export default NotFound;

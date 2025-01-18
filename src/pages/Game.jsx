@@ -72,31 +72,35 @@ const About = () => {
 
   return (
     <div>
-      <div className="text-center text-lg font-bold text-gray-600 pt-6">
-        ------- Đập hộp mù -------
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {rows.map((el) => (
-          <GiftBoxAnimation
-            key={el}
-            idx={el}
-            onUpdate={handleUpdateResultBox}
-          ></GiftBoxAnimation>
-        ))}
-      </div>
-      <div className="text-center text-lg font-bold text-gray-600 pt-6">
-        ------ Vòng quay may mắn ------
-      </div>
-      <div className="flex justify-center p-4">
-        <WheelComponent
-          segments={segments}
-          segColors={segColors}
-          onFinished={(winner) => onFinished(winner)}
-          primaryColor="#6088d9"
-          contrastColor="white"
-          buttonText="Quay"
-          isOnlyOnce={true}
-        />
+      {/* <div className="giftbox">
+        <div className="text-center text-lg font-bold text-gray-600 pt-6">
+          ------- Đập hộp mù -------
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {rows.map((el) => (
+            <GiftBoxAnimation
+              key={el}
+              idx={el}
+              onUpdate={handleUpdateResultBox}
+            ></GiftBoxAnimation>
+          ))}
+        </div>
+      </div> */}
+      <div className="giftwheel">
+        <div className="text-center text-lg font-bold text-teal-600 pt-6 uppercase">
+          ------ Vòng quay may mắn ------
+        </div>
+        <div className="flex justify-center p-4">
+          <WheelComponent
+            segments={segments}
+            segColors={segColors}
+            onFinished={(winner) => onFinished(winner)}
+            primaryColor="#6088d9"
+            contrastColor="white"
+            buttonText="Quay"
+            isOnlyOnce={true}
+          />
+        </div>
       </div>
 
       <Modal

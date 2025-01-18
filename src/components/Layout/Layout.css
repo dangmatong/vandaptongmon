@@ -4,12 +4,6 @@ body {
   font-family: "Sour Gummy", serif;
 }
 
-#layout {
-  background: linear-gradient(#5349494a, #9198e5);
-  background-image: url("../../assets/images/anime_girls_1.jpg");
-  background-size: cover;
-  background-position: center;
-}
 .overlay {
   backdrop-filter: blur(2px);
 }
@@ -31,4 +25,24 @@ body {
   background-position: center;
   background-size: contain;
   color: transparent;
+}
+
+.long-den {
+  background-image: url("../../assets/images/longden.gif");
+  background-position: top;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.chu-dong {
+  background-image: url("../../assets/images/chu-cmnm.gif");
+  background-position: top;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.phao-hoa {
+  background-image: url("../../assets/images/longden.gif");
+  background-position: top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: scaleX(-1);
 }

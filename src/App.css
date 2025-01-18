@@ -100,3 +100,15 @@ canvas {
     bottom: 6em;
   }
 }
+
+/* login */
+.login-card {
+  backdrop-filter: blur(2px);
+  background: rgba(202, 220, 231, 0.9);
+}
+.layout-login {
+  background: linear-gradient(#5349494a, #9198e5);
+  background-image: url("./assets/images/tetnd.jpg");
+  background-size: cover;
+  background-position: center;
+}

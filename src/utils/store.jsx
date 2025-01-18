@@ -12,12 +12,14 @@ export const StoreProvider = ({ children }) => {
     else text += "Đã tắt âm thanh";
 
     toast.dismiss();
-    toast(text, {
-      position: "top-right",
-      pauseOnFocusLoss: false,
-      closeOnClick: true,
-      autoClose: 1500,
-    });
+    if (!location.pathname.includes("/login")) {
+      toast(text, {
+        position: "top-right",
+        pauseOnFocusLoss: false,
+        closeOnClick: true,
+        autoClose: 1500,
+      });
+    }
   }, [sound]);
 
   return (

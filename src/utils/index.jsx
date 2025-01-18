@@ -93,7 +93,12 @@ export const highlightMatchesWithPositions = (line, term) => {
 export const confettiFireworks = (second = 8) => {
   var duration = second * 1000;
   var animationEnd = Date.now() + duration;
-  var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+  var defaults = {
+    startVelocity: 30,
+    spread: 360,
+    ticks: 60,
+    zIndex: 10000,
+  };
 
   function randomInRange(min, max) {
     return Math.random() * (max - min) + min;
@@ -234,7 +239,7 @@ export const confettiSchoolPride = (second = 1) => {
   var end = Date.now() + second * 1000;
 
   // go Buckeyes!
-  var colors = ["#fc0703", "#fce303"];
+  var colors = ["#f23f3f", "#ecf23f", "#4287f5", "#1bc900"];
 
   (function frame() {
     confetti({
@@ -253,7 +258,52 @@ export const confettiSchoolPride = (second = 1) => {
     });
 
     if (Date.now() < end) {
-      requestAnimationFrame(frame);
+      setTimeout(() => {
+        requestAnimationFrame(frame);
+      }, 10);
     }
+  })();
+};
+
+export const confettiSnow = () => {
+  var scalar = 2;
+  var flowers = ["🌸", "🍃", "🍂", "💮"];
+  var shapes = flowers.map((el) =>
+    confetti.shapeFromText({ text: el, scalar })
+  );
+  var duration = 15 * 1000;
+  var animationEnd = Date.now() + duration;
+  var skew = 1;
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  (function frame() {
+    var timeLeft = animationEnd - Date.now();
+    var ticks = Math.max(200, 500 * (timeLeft / duration));
+    skew = Math.max(0.8, skew - 0.001);
+
+    confetti({
+      particleCount: 1,
+      startVelocity: 0,
+      ticks: ticks,
+      origin: {
+        x: Math.random(),
+        // since particles fall down, skew start toward the top
+        y: Math.random() * skew - 0.2,
+      },
+      colors: ["#ffffff"],
+      shapes: shapes,
+      gravity: randomInRange(0.4, 0.6),
+      scalar: scalar,
+      drift: randomInRange(-0.4, 0.4),
+    });
+
+    setTimeout(() => {
+      // if (timeLeft > 0) {
+      requestAnimationFrame(frame);
+      // }
+    }, 350);
   })();
 };
