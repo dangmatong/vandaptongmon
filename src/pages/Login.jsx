@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { confettiSnow } from "../utils";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [messageErr, setMessageErr] = useState("");
@@ -19,7 +20,7 @@ const Login = () => {
     setMessageErr(msg);
   };
   return (
-    <div className="layout-login min-h-screen">
+    <div className="bg-small-layout md:bg-large-layout min-h-screen">
       <div className="container max-w-[700px] py-28">
         <div className="login-card px-5 py-8 rounded-md">
           <div className="login-title text-center">
@@ -76,6 +77,11 @@ const Login = () => {
               >
                 Login
               </button>
+            </div>
+            <div className="text-center mt-3">
+              <Link className="underline" to="/">
+                Quay lại trang chủ
+              </Link>
             </div>
           </div>
         </div>
