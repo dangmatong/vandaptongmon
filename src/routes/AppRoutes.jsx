@@ -3,7 +3,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 
 // Import các trang (pages)
 import HomePage from "../pages/Home";
-import GanePage from "../pages/Game";
+import GamePage from "../pages/Game";
 import NotFoundPage from "../pages/NotFound";
 import ContributeComments from "../pages/ContributeComments";
 import Layout from "../components/Layout/Layout";
@@ -25,11 +25,11 @@ const AppRoutes = () => {
         <Route
           path="/game"
           element={
-            <ProtectedRoute>
-              <Layout>
-                <GanePage />
-              </Layout>
-            </ProtectedRoute>
+            <Layout>
+              <ProtectedRoute>
+                <GamePage />
+              </ProtectedRoute>
+            </Layout>
           }
         />
         <Route

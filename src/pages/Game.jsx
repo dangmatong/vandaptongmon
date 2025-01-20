@@ -1,9 +1,10 @@
 import "react-wheel-of-prizes/dist/index.css";
 import Modal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WheelComponent from "../components/Wheel";
 import GiftBoxAnimation from "../components/GiftBoxAnimation";
 import { confettiFireworks } from "../utils";
+import Wheelworkout from "../components/spinwheel/wheelthemes/Wheelworkout";
 
 const customStyles = {
   content: {
@@ -54,6 +55,7 @@ const About = () => {
   for (let i = 0; i < 8; i++) {
     rows.push(i);
   }
+  const items = segments.map((el) => ({ label: el }));
 
   // modal
   function openModal() {
@@ -64,8 +66,8 @@ const About = () => {
   }
 
   // luckey wheel
-  const onFinished = (winner) => {
-    setResult(winner);
+  const onFinished = (e) => {
+    setResult(segments[e.currentIndex]);
     openModal();
     confettiFireworks();
   };
@@ -98,7 +100,12 @@ const About = () => {
           ------ Vòng quay may mắn ------
         </div>
         <div className="flex justify-center p-4">
-          <WheelComponent
+          <Wheelworkout
+            items={items}
+            winningSegment="200.000 VND"
+            onFinished={(e) => onFinished(e)}
+          ></Wheelworkout>
+          {/* <WheelComponent
             segments={segments}
             segColors={segColors}
             onFinished={(winner) => onFinished(winner)}
@@ -107,7 +114,7 @@ const About = () => {
             contrastColor="white"
             buttonText="Quay"
             isOnlyOnce={true}
-          />
+          /> */}
         </div>
       </div>
 

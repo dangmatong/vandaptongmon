@@ -1,7 +1,7 @@
 import Header from "../Header";
 import "./Layout.css";
 import { confettiSnow } from "../../utils";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Layout = ({ children }) => {
   useEffect(() => {

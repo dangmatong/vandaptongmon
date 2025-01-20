@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getRandomInt } from "../utils";
 
 const WheelComponent = ({
   segments,
