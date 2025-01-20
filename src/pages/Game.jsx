@@ -19,18 +19,25 @@ Modal.setAppElement("#root");
 
 const segments = [
   "10.000 VND",
+  "20.000 VND",
   "Chúc may mắn lần sau!",
   "20.000 VND",
+  "30.000 VND",
+  "Chúc may mắn lần sau!",
   "10.000 VND",
+  "200.000 VND",
   "Chúc may mắn lần sau!",
   "20.000 VND",
+  "500.000 VND",
   "10.000 VND",
   "Chúc may mắn lần sau!",
   "30.000 VND",
+  "100.000 VND",
+  "Chúc may mắn lần sau!",
 ];
 const segColors = [
-  "#EE4040",
   "#F0CF50",
+  "#EE4040",
   "#815CD1",
   "#3DA5E0",
   "#34A24F",
@@ -96,6 +103,7 @@ const About = () => {
             segColors={segColors}
             onFinished={(winner) => onFinished(winner)}
             primaryColor="#6088d9"
+            // winningSegment="200.000 VND"
             contrastColor="white"
             buttonText="Quay"
             isOnlyOnce={true}

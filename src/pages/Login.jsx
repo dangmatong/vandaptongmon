@@ -1,23 +1,53 @@
 import { useEffect, useState } from "react";
 import { confettiSnow } from "../utils";
 import { Link } from "react-router-dom";
+import authApi from "../api/authApi";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [messageErr, setMessageErr] = useState("");
   const [data, setData] = useState({
     username: "",
     password: "",
   });
   useEffect(() => {
-    confettiSnow();
+    setTimeout(() => {
+      confettiSnow();
+    }, 1000);
+
+    return () => {
+      localStorage.setItem("canvas-global", false);
+    };
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     var msg = "";
     if (!data.username || !data.password) {
       msg = "Vui lòng điền đầy đủ thông tin.";
     }
-    setMessageErr(msg);
+
+    if (msg) {
+      setMessageErr(msg);
+      return;
+    }
+
+    try {
+      const { accessToken: token } = await authApi.login({
+        username: data.username,
+        password: data.password,
+      });
+
+      localStorage.setItem("token", token);
+      console.log(location.state);
+      const redirectTo = location.state?.from || "/";
+      navigate(redirectTo);
+    } catch (error) {
+      msg = error?.response.data?.msg;
+      setMessageErr(msg);
+    }
   };
   return (
     <div className="bg-small-layout md:bg-large-layout min-h-screen">

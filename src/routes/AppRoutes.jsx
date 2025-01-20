@@ -40,7 +40,14 @@ const AppRoutes = () => {
             </Layout>
           }
         />
-        <Route path="/login" element={<Login></Login>} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute pageLogin={true}>
+              <Login></Login>
+            </ProtectedRoute>
+          }
+        />
 
         {/* Route không tìm thấy */}
         <Route path="*" element={<NotFoundPage />} />

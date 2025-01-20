@@ -1,5 +1,11 @@
-export const getToken = () => {
-  return localStorage.getItem("token");
+export const getToken = (key = "token") => {
+  return localStorage.getItem(key);
+};
+
+export const checkLogin = () => {
+  const token = localStorage.getItem("token");
+  return true;
+  return !!token;
 };
 
 export const isTokenValid = (token) => {

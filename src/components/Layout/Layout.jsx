@@ -1,11 +1,17 @@
 import Header from "../Header";
 import "./Layout.css";
 import { confettiSnow } from "../../utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Layout = ({ children }) => {
   useEffect(() => {
-    confettiSnow();
+    setTimeout(() => {
+      confettiSnow();
+    }, 1000);
+
+    return () => {
+      localStorage.setItem("canvas-global", false);
+    };
   }, []);
 
   return (
@@ -29,6 +35,9 @@ const Layout = ({ children }) => {
             <div className="relative w-full z-10 mt-16">
               <Header></Header>
               <main>{children}</main>
+              <div className="text-center text-red-500 italic my-2 font-bold">
+                <h4>Chúc mừng năm mới 2025!</h4>
+              </div>
             </div>
           </div>
         </div>

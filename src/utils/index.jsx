@@ -90,6 +90,14 @@ export const highlightMatchesWithPositions = (line, term) => {
   return elements;
 };
 
+export const randomInRange = (min, max) => {
+  return Math.random() * (max - min) + min;
+};
+
+export const getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export const confettiFireworks = (second = 8) => {
   var duration = second * 1000;
   var animationEnd = Date.now() + duration;
@@ -97,12 +105,8 @@ export const confettiFireworks = (second = 8) => {
     startVelocity: 30,
     spread: 360,
     ticks: 60,
-    zIndex: 10000,
+    zIndex: 100000,
   };
-
-  function randomInRange(min, max) {
-    return Math.random() * (max - min) + min;
-  }
 
   var interval = setInterval(function () {
     var timeLeft = animationEnd - Date.now();
@@ -266,6 +270,7 @@ export const confettiSchoolPride = (second = 1) => {
 };
 
 export const confettiSnow = () => {
+  localStorage.setItem("canvas-global", true);
   var scalar = 2;
   var flowers = ["🌸", "🍃", "🍂", "💮"];
   var shapes = flowers.map((el) =>
@@ -301,9 +306,13 @@ export const confettiSnow = () => {
     });
 
     setTimeout(() => {
-      // if (timeLeft > 0) {
-      requestAnimationFrame(frame);
-      // }
-    }, 350);
+      if (localStorage.getItem("canvas-global") == "true") {
+        requestAnimationFrame(frame);
+      }
+      if (timeLeft <= 0) {
+        animationEnd = Date.now() + duration;
+        skew = 1;
+      }
+    }, 400);
   })();
 };
