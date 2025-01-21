@@ -1,7 +1,5 @@
-import "react-wheel-of-prizes/dist/index.css";
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
-import WheelComponent from "../components/Wheel";
 import GiftBoxAnimation from "../components/GiftBoxAnimation";
 import { confettiFireworks } from "../utils";
 import Wheelworkout from "../components/spinwheel/wheelthemes/Wheelworkout";
@@ -105,16 +103,6 @@ const About = () => {
             winningSegment="200.000 VND"
             onFinished={(e) => onFinished(e)}
           ></Wheelworkout>
-          {/* <WheelComponent
-            segments={segments}
-            segColors={segColors}
-            onFinished={(winner) => onFinished(winner)}
-            primaryColor="#6088d9"
-            // winningSegment="200.000 VND"
-            contrastColor="white"
-            buttonText="Quay"
-            isOnlyOnce={true}
-          /> */}
         </div>
       </div>
 

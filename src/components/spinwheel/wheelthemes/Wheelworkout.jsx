@@ -24,6 +24,12 @@ const Wheelworkout = ({ items, onFinished }) => {
           label: "Not found",
         },
       ];
+
+  const onRest = (e) => {
+    onFinished(e);
+    setIsRunning(false);
+  };
+
   const propsWheel = {
     name: "Workout",
     radius: 0.84,
@@ -59,10 +65,7 @@ const Wheelworkout = ({ items, onFinished }) => {
     image: wheelImage,
     overlayImage: overlayImage,
     items: itemsValid,
-    onRest: (e) => {
-      onFinished(e);
-      setIsRunning(false);
-    },
+    onRest: onRest,
   };
 
   const images = [];
@@ -94,11 +97,10 @@ const Wheelworkout = ({ items, onFinished }) => {
 
   const spinLuckey = () => {
     if (!isRunning) {
-      // const duration = itemsValid.length * 1000;
-      const duration = 4000;
+      const duration = 6000;
       const itemIndex = getRandomInt(0, itemsValid.length - 1);
       if (wheel) {
-        wheel.spinToItem(itemIndex, duration, false, 2, 1);
+        wheel.spinToItem(itemIndex, duration, false, itemsValid.length, 1);
       }
       setIsRunning(true);
     }
@@ -107,7 +109,7 @@ const Wheelworkout = ({ items, onFinished }) => {
   return (
     <div
       onClick={spinLuckey}
-      className="wheel-container w-full h-full overflow-hidden"
+      className="wheel-container w-full min-h-[90vw] md:min-h-[600px] overflow-hidden"
     ></div>
   );
 };

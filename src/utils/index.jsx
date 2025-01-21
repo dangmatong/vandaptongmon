@@ -313,6 +313,6 @@ export const confettiSnow = () => {
         animationEnd = Date.now() + duration;
         skew = 1;
       }
-    }, 400);
+    }, 1000);
   })();
 };
