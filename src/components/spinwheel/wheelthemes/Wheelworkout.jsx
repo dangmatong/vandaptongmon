@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Wheel } from "spin-wheel";
 import { AlignText } from "../constants";
-import { loadFonts } from "../util";
+import { loadFonts, loadImages } from "../util";
 import { getRandomInt } from "../../../utils";
 import { easeOutQuart } from "easing-utils";
 
@@ -66,15 +66,17 @@ const WheelWorkout = ({ items, onFinished }) => {
   // Convert image urls into actual images:
   images.push(initImage(propsWheel, "image"));
   images.push(initImage(propsWheel, "overlayImage"));
-  for (const item of propsWheel.items) {
-    images.push(initImage(item, "image"));
-  }
+  // for (const item of propsWheel.items) {
+  //   images.push(initImage(item, "image"));
+  // }
+  console.log(images);
 
   const [isRunning, setIsRunning] = useState(false);
   const [wheel, setWheel] = useState();
   useEffect(() => {
     async function run() {
       await loadFonts([propsWheel.itemLabelFont]);
+      await loadImages(images);
 
       const container = document.querySelector(".wheel-container");
       const wheelInit = new Wheel(container);

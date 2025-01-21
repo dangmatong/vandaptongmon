@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Wheel } from "spin-wheel";
 import { AlignText } from "../constants";
-import { loadFonts } from "../util";
+import { loadFonts, loadImages } from "../util";
 import { getRandomInt } from "../../../utils";
 import { easeOutQuart } from "easing-utils";
 
@@ -63,6 +63,7 @@ const WheelMovies = ({ items, onFinished }) => {
   useEffect(() => {
     async function run() {
       await loadFonts([propsWheel.itemLabelFont]);
+      await loadImages(images);
 
       const container = document.querySelector(".wheel-container");
       const wheelInit = new Wheel(container);

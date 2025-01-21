@@ -10,3 +10,17 @@ export async function loadFonts(fontNames = []) {
 
   await Promise.all(promises);
 }
+
+export async function loadImages(images = []) {
+  const promises = [];
+
+  for (const img of images) {
+    if (img instanceof HTMLImageElement) promises.push(img.decode());
+  }
+
+  try {
+    await Promise.all(promises);
+  } catch (error) {
+    throw new Error("An image could not be loaded");
+  }
+}

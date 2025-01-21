@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import GiftBoxAnimation from "../components/GiftBoxAnimation";
 import { confettiFireworks } from "../utils";
-import WheelWorkout from "../components/spinwheel/wheelthemes/WheelWorkout";
+// import WheelWorkout from "../components/spinwheel/wheelthemes/WheelWorkout";
 import WheelMovies from "../components/spinwheel/wheelthemes/WheelMovies";
 
 const customStyles = {
