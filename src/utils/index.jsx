@@ -98,7 +98,7 @@ export const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export const confettiFireworks = (second = 8) => {
+export const confettiFireworks = (second = 5) => {
   var duration = second * 1000;
   var animationEnd = Date.now() + duration;
   var defaults = {
@@ -115,7 +115,7 @@ export const confettiFireworks = (second = 8) => {
       return clearInterval(interval);
     }
 
-    var particleCount = 50 * (timeLeft / duration);
+    var particleCount = 40 * (timeLeft / duration);
     // since particles fall down, start a bit higher than random
     confetti({
       ...defaults,

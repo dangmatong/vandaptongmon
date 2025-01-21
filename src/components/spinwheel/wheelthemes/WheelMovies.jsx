@@ -6,8 +6,7 @@ import { getRandomInt } from "../../../utils";
 import { easeOutQuart } from "easing-utils";
 
 // import images
-import wheelImage from "./img/example-0-image.svg";
-import overlayImage from "./img/example-0-overlay.svg";
+import overlayImage from "./img/example-2-overlay.svg";
 
 function initImage(obj, pName) {
   if (!obj[pName]) return null;
@@ -17,7 +16,7 @@ function initImage(obj, pName) {
   return i;
 }
 
-const WheelWorkout = ({ items, onFinished }) => {
+const WheelMovies = ({ items, onFinished }) => {
   const itemsValid = items
     ? items
     : [
@@ -32,30 +31,19 @@ const WheelWorkout = ({ items, onFinished }) => {
   };
 
   const propsWheel = {
-    name: "Workout",
-    radius: 0.84,
-    itemLabelRadius: 0.93,
-    itemLabelRadiusMax: 0.35,
-    itemLabelRotation: 180,
-    itemLabelAlign: AlignText.left,
-    itemLabelColors: ["#fff"],
-    itemLabelBaselineOffset: -0.07,
-    itemLabelFont: "Amatic SC",
-    itemLabelFontSizeMax: 55,
-    itemBackgroundColors: [
-      "#ffc93c",
-      "#66bfbf",
-      "#a2d5f2",
-      "#515070",
-      "#43658b",
-      "#ed6663",
-      "#d54062",
-    ],
-    rotationSpeedMax: 500,
-    rotationResistance: -100,
-    lineWidth: 1,
-    lineColor: "#fff",
-    image: wheelImage,
+    name: "Movies",
+    radius: 0.88,
+    itemLabelRadius: 0.92,
+    itemLabelRadiusMax: 0.4,
+    itemLabelRotation: 0,
+    itemLabelAlign: AlignText.right,
+    itemLabelBaselineOffset: -0.13,
+    itemLabelFont: "Pragati Narrow",
+    itemBackgroundColors: ["#c7160c", "#fff"],
+    itemLabelColors: ["#fff", "#000"],
+    rotationSpeedMax: 700,
+    rotationResistance: -70,
+    lineWidth: 0,
     overlayImage: overlayImage,
     items: itemsValid,
     onRest: onRest,
@@ -116,4 +104,4 @@ const WheelWorkout = ({ items, onFinished }) => {
   );
 };
 
-export default WheelWorkout;
+export default WheelMovies;

@@ -2,7 +2,8 @@ import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import GiftBoxAnimation from "../components/GiftBoxAnimation";
 import { confettiFireworks } from "../utils";
-import Wheelworkout from "../components/spinwheel/wheelthemes/Wheelworkout";
+import WheelWorkout from "../components/spinwheel/wheelthemes/WheelWorkout";
+import WheelMovies from "../components/spinwheel/wheelthemes/WheelMovies";
 
 const customStyles = {
   content: {
@@ -98,11 +99,11 @@ const About = () => {
           ------ Vòng quay may mắn ------
         </div>
         <div className="flex justify-center p-4">
-          <Wheelworkout
+          <WheelMovies
             items={items}
             winningSegment="200.000 VND"
             onFinished={(e) => onFinished(e)}
-          ></Wheelworkout>
+          ></WheelMovies>
         </div>
       </div>
 
