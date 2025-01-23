@@ -112,11 +112,11 @@ const WheelMovies = ({ items, onFinished }) => {
       <div className="py-4">
         <div className="relative h-28">
           {/* đường chưa đi qua */}
-          <div className="absolute inset-x-0 mx-auto z-[2] rounded-t-lg -top-8 h-36 w-[6px] bg-slate-400"></div>
+          <div className="absolute inset-x-0 mx-auto z-[2] rounded-t-lg -top-9 h-[9.5rem] w-[6px] bg-slate-400"></div>
           {isLaunched ? (
             <>
               <motion.div
-                className="absolute inset-x-0 mx-auto z-[3] rounded-t-lg -top-8 h-36 w-[6px] bg-orange-400"
+                className="absolute inset-x-0 mx-auto z-[3] rounded-t-lg -top-9 h-[9.5rem] w-[6px] bg-orange-400"
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: 1 }}
                 transition={{
@@ -129,7 +129,7 @@ const WheelMovies = ({ items, onFinished }) => {
               />
               {/* hiệu ứng nhòe */}
               <motion.div
-                className="absolute inset-x-0 mx-auto z-[2] rounded-t-lg -top-7 h-36 w-[4px] bg-orange-600 blur-md"
+                className="absolute inset-x-0 mx-auto z-[2] rounded-t-lg -top-9 h-[9.5rem] w-[4px] bg-orange-600 blur-md"
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: 1 }}
                 transition={{
@@ -150,7 +150,7 @@ const WheelMovies = ({ items, onFinished }) => {
               {/* hiệu ứng đi lên */}
               <motion.div
                 initial={{ y: 0 }}
-                animate={{ y: "-9rem" }}
+                animate={{ y: "-8rem" }}
                 transition={{ duration: 2, ease: "easeOut" }}
                 className="absolute inset-x-0 mx-auto top-0 z-[4] bottom-0"
               >
