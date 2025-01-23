@@ -1,8 +1,7 @@
 import Modal from "react-modal";
-import { useState, useEffect } from "react";
-import GiftBoxAnimation from "../components/GiftBoxAnimation";
+import { useState } from "react";
+// import GiftBoxAnimation from "../components/GiftBoxAnimation";
 import { confettiFireworks } from "../utils";
-// import WheelWorkout from "../components/spinwheel/wheelthemes/WheelWorkout";
 import WheelMovies from "../components/spinwheel/wheelthemes/WheelMovies";
 
 const customStyles = {
@@ -34,16 +33,6 @@ const segments = [
   "30.000 VND",
   "100.000 VND",
   "Chúc may mắn lần sau!",
-];
-const segColors = [
-  "#F0CF50",
-  "#EE4040",
-  "#815CD1",
-  "#3DA5E0",
-  "#34A24F",
-  "#F9AA1F",
-  "#EC3F3F",
-  "#FF9000",
 ];
 
 const About = () => {
@@ -96,15 +85,13 @@ const About = () => {
       </div> */}
       <div className="giftwheel">
         <div className="text-center text-lg font-bold text-teal-600 pt-6 uppercase">
-          ------ Vòng quay may mắn ------
+          🍀🍀🍀 Vòng quay may mắn 🍀🍀🍀
         </div>
-        <div className="flex justify-center p-4">
-          <WheelMovies
-            items={items}
-            winningSegment="200.000 VND"
-            onFinished={(e) => onFinished(e)}
-          ></WheelMovies>
-        </div>
+        <WheelMovies
+          items={items}
+          winningSegment="200.000 VND"
+          onFinished={(e) => onFinished(e)}
+        ></WheelMovies>
       </div>
 
       <Modal

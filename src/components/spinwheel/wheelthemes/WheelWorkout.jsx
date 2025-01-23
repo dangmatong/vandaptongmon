@@ -66,10 +66,9 @@ const WheelWorkout = ({ items, onFinished }) => {
   // Convert image urls into actual images:
   images.push(initImage(propsWheel, "image"));
   images.push(initImage(propsWheel, "overlayImage"));
-  // for (const item of propsWheel.items) {
-  //   images.push(initImage(item, "image"));
-  // }
-  console.log(images);
+  for (const item of propsWheel.items) {
+    images.push(initImage(item, "image"));
+  }
 
   const [isRunning, setIsRunning] = useState(false);
   const [wheel, setWheel] = useState();
@@ -106,6 +105,7 @@ const WheelWorkout = ({ items, onFinished }) => {
           }
         );
       }
+
       setIsRunning(true);
     }
   };

@@ -10,11 +10,6 @@
   font-style: normal;
 }
 
-canvas {
-  width: 100%;
-  cursor: pointer;
-}
-
 .click-to-spin {
   font-size: 12px;
 }

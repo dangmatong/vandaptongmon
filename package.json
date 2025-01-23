@@ -13,6 +13,7 @@
     "axios": "^1.7.9",
     "canvas-confetti": "^1.9.3",
     "easing-utils": "^1.0.0",
+    "framer-motion": "^12.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.3",
