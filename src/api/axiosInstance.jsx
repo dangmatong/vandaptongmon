@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearUserData } from "../utils/auth";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL, // URL cơ bản của API
@@ -26,8 +27,8 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // Xử lý lỗi
     if (error.response?.status === 401) {
-      console.log("Unauthorized, redirecting to login...");
-      // Thêm logic xử lý như chuyển hướng
+      clearUserData();
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }

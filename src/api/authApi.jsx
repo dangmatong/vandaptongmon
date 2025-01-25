@@ -1,4 +1,4 @@
-import axiosInstance from "./index";
+import axiosInstance from "./axiosInstance";
 
 const authApi = {
   login: async (credentials) => {

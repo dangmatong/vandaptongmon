@@ -3,8 +3,11 @@ import { confettiSnow } from "../utils";
 import { Link } from "react-router-dom";
 import authApi from "../api/authApi";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
+  const { setIsLoggedIn } = useAuth();
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -41,7 +44,7 @@ const Login = () => {
       });
 
       localStorage.setItem("token", token);
-      console.log(location.state);
+      setIsLoggedIn(true);
       const redirectTo = location.state?.from || "/";
       navigate(redirectTo);
     } catch (error) {
