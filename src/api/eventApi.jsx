@@ -13,6 +13,12 @@ const eventApi = {
     const response = await axiosInstance.post(`/api/gift/wheel`, data);
     return response.data;
   },
+  getResultEvent: async (params) => {
+    const response = await axiosInstance.get(`/api/event/result_event`, {
+      params,
+    });
+    return response.data;
+  },
 };
 
 export default eventApi;

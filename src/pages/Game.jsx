@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import eventApi from "../api/eventApi";
-import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import dayjs from "dayjs";
+import { compareTime } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 const Game = () => {
+  const navigate = useNavigate();
+  const handleRedirect = (id, t) => {
+    if (compareTime(t)) {
+      navigate(`/game/${id}`);
+    }
+  };
+
   const [events, setEvents] = useState();
   const getEvents = async () => {
     try {
       const res = await eventApi.getEvents();
-      setEvents(res.datas);
+      setEvents(res.data);
     } catch (error) {
       let msg = error?.response.data?.msg;
       console.log(msg);
@@ -21,27 +31,61 @@ const Game = () => {
       <div className="text-center text-lg font-bold text-teal-600 py-6 uppercase">
         🍀🍀🍀 Danh sách các event 🍀🍀🍀
       </div>
-      <div className="list-event grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {events &&
-          events.map((el) => (
-            <div
-              key={el._id}
-              className="rounded-lg shadow-lg p-4 bg-gradient-to-tr from-green-400 to-green-500 via-transparent"
-            >
-              <div className="text-center mb-4">
-                <h3 className="text-xl text-red-600 uppercase">{el.name}</h3>
-              </div>
-              <div className="mb-2"></div>
-              <div className="text-center">
-                <Link
-                  to={`/game/${el._id}`}
-                  className="p-2 text-white rounded-lg shadow-lg bg-red-500  hover:bg-red-600"
+      <div>
+        {events ? (
+          events.length ? (
+            <div className="list-event grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {events.map((el) => (
+                <motion.div
+                  key={el._id}
+                  whileHover={{ scale: 1.1 }}
+                  className="max-w-sm w-full bg-gradient-to-r from-pink-500 to-yellow-500 shadow-lg rounded-2xl p-6"
                 >
-                  Tham gia
-                </Link>
-              </div>
+                  <div className="text-white">
+                    <div className="text-center mb-4">
+                      <h2 className="text-xl font-bold uppercase">{el.name}</h2>
+                    </div>
+                    <div className="mb-4">
+                      <div className="italic">
+                        Thời gian bắt đầu:{" "}
+                        {dayjs(el.startTime).format("DD-MM-YYYY HH:mm:ss")}
+                      </div>
+                      <div className="italic">
+                        Thời gian kết thúc:{" "}
+                        {dayjs(el.endTime).format("DD-MM-YYYY HH:mm:ss")}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <button
+                        onClick={() => handleRedirect(el._id, el.endTime)}
+                        className={
+                          "p-2 rounded-lg shadow-lg " +
+                          (compareTime(el.endTime)
+                            ? "bg-red-500 hover:bg-red-600"
+                            : "bg-gray-500 cursor-not-allowed")
+                        }
+                      >
+                        Tham gia
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <div className="text-center mb-4">
+              <span className="text-red-600 rounded-md px-3 py-2 bg-orange-200 inline-block">
+                Chưa có event nào!
+              </span>
+            </div>
+          )
+        ) : (
+          <div className="text-center mb-4">
+            <span className="text-gray-600 rounded-md px-3 py-2 bg-gray-200 inline-block">
+              Đang tải...
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,21 @@
 import confetti from "canvas-confetti";
+import dayjs from "dayjs";
+
+export const calcTimeDuration = (targetTime) => {
+  const targetDate = new Date(targetTime).getTime();
+  const currentTime = new Date().getTime();
+
+  return targetDate - currentTime;
+};
+
+export const compareTime = (t) => {
+  const currentTime = dayjs();
+  const endTime = dayjs(t);
+  if (currentTime.isBefore(endTime) || currentTime.isSame(endTime)) {
+    return true;
+  }
+  return false;
+};
 
 export const removeDiacritics = (str) =>
   str

@@ -20,21 +20,23 @@ function initImage(obj, pName) {
 const WheelMovies = ({ items, onFinished, onBeforeSpin }) => {
   const [isLaunched, setIsLaunched] = useState(false);
   const [isSuccess, setIsSuccess] = useState(true);
-  const [itemIndex, setItemIndex] = useState();
 
   const handleLaunch = async () => {
+    let itemIndex;
     if (onBeforeSpin) {
       let { rs, idx } = await onBeforeSpin();
       if (!rs) {
         return;
       }
-      setItemIndex(idx);
+      itemIndex = idx;
+    } else {
+      itemIndex = getRandomInt(0, items.length - 1);
     }
 
     if (!isLaunched && isSuccess) {
       setIsLaunched(true);
       setTimeout(() => {
-        spinLuckey();
+        spinLuckey(itemIndex);
         setIsSuccess(false);
       }, 2000);
     }
@@ -80,10 +82,6 @@ const WheelMovies = ({ items, onFinished, onBeforeSpin }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [wheel, setWheel] = useState();
   useEffect(() => {
-    if (items.length) {
-      setItemIndex(getRandomInt(0, items.length - 1));
-    }
-
     async function run() {
       await loadFonts([propsWheel.itemLabelFont]);
       await loadImages(images);
@@ -108,7 +106,7 @@ const WheelMovies = ({ items, onFinished, onBeforeSpin }) => {
     run();
   }, [items]);
 
-  const spinLuckey = async () => {
+  const spinLuckey = (itemIndex) => {
     if (!isRunning) {
       const duration = 6000;
       if (wheel) {
@@ -125,7 +123,7 @@ const WheelMovies = ({ items, onFinished, onBeforeSpin }) => {
       {items ? (
         <>
           <div className="relative z-[5] wheel-container w-full min-h-[90vw] md:min-h-[600px] overflow-hidden"></div>
-          <div className="py-4">
+          <div className="py-3">
             <div className="relative h-24">
               {/* đường chưa đi qua */}
               <div className="absolute inset-x-0 mx-auto z-[2] rounded-t-lg -top-9 h-36 w-[6px] bg-slate-400"></div>

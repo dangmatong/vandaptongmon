@@ -1,11 +1,14 @@
 import Modal from "react-modal";
 import { useEffect, useState } from "react";
 // import GiftBoxAnimation from "../components/GiftBoxAnimation";
-import { confettiFireworks } from "../utils";
+import { confettiFireworks, calcTimeDuration } from "../utils";
 import WheelMovies from "../components/spinwheel/wheelthemes/WheelMovies";
 import eventApi from "../api/eventApi";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import ResultEventList from "./ResultEventList";
+import CountdownTimer from "../components/CountdownTimer";
+import dayjs from "dayjs";
 
 const customStyles = {
   content: {
@@ -43,17 +46,39 @@ const Event = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [resultGift, setResultGift] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
   const [result, setResult] = useState("");
+  const [reloadResult, setReloadReult] = useState(false);
+  const [turnSpin, setTurnSpin] = useState();
   //   const rows = [];
   //   for (let i = 0; i < 8; i++) {
   //     rows.push(i);
   //   }
   const [items, setItems] = useState();
   const [errMessage, setErrMessage] = useState("");
+  const [timeDown, setTimeDown] = useState();
+  const [userEvent, setUserEvent] = useState({});
+  const [titleTime, setTitleTime] = useState();
+  const [expireEvent, setExpireEvent] = useState(false);
+  const handleFinishTime = () => {
+    console.log("object");
+  };
 
   const getEventDetail = async (id) => {
     try {
       const res = await eventApi.getEventDetail(id);
-      setItems(res.datas?.items.map((el) => ({ label: el.label })));
+      const event = res.data?.event;
+      setUserEvent(res.data?.userEvent);
+      setTurnSpin(res.data?.userEvent?.numberReceived);
+      if (calcTimeDuration(event.startTime) >= 0) {
+        setTimeDown(event.startTime);
+      } else {
+        if (calcTimeDuration(event.endTime) >= 0) {
+          setTimeDown(event.endTime);
+          setTitleTime("Event kết thúc sau:");
+        } else {
+          setExpireEvent(true);
+        }
+      }
+      setItems(event?.items.map((el) => el));
       setErrMessage("");
     } catch (error) {
       console.log(error);
@@ -72,8 +97,9 @@ const Event = () => {
       const res = await eventApi.giftWheel({
         eventId: id,
       });
-      const itemIndex = items.findIndex((el) => res.datas?.resultId == el.id);
-      return { result: true, itemIndex };
+      const idx = items.findIndex((el) => res.data?.resultId == el.id);
+      setTurnSpin((el) => --el);
+      return { rs: true, idx };
     } catch (error) {
       let text = error?.response.data?.msg;
       toast.dismiss();
@@ -100,6 +126,7 @@ const Event = () => {
     setResult(items[e.currentIndex].label);
     openModal();
     confettiFireworks();
+    setReloadReult((el) => !el);
   };
 
   // box gift
@@ -125,7 +152,18 @@ const Event = () => {
           ))}
         </div>
       </div> */}
-      {items ? (
+      <div className="flex items-center justify-center p-4">
+        {timeDown ? (
+          <CountdownTimer
+            title={titleTime}
+            targetTime={timeDown}
+            onFinished={handleFinishTime}
+          />
+        ) : (
+          ""
+        )}
+      </div>
+      {items && !expireEvent ? (
         <>
           <div className="giftwheel">
             <div className="text-center text-lg font-bold text-teal-600 pt-6 uppercase">
@@ -136,6 +174,9 @@ const Event = () => {
               onFinished={(e) => onFinished(e)}
               onBeforeSpin={getResult}
             ></WheelMovies>
+          </div>
+          <div className="text-center font-bold text-emerald-600">
+            Bạn còn {turnSpin != undefined ? turnSpin : "_"} lượt quay.
           </div>
           <Modal
             isOpen={modalIsOpen}
@@ -169,12 +210,21 @@ const Event = () => {
               {errMessage}
             </span>
           ) : (
-            <div className="text-gray-600 rounded-md px-3 py-2 bg-gray-200 inline-block">
-              Đang tải...
-            </div>
+            <>
+              {expireEvent ? (
+                <span className="text-red-600 rounded-md px-3 py-2 bg-red-200 inline-block">
+                  Event đã kết thúc!
+                </span>
+              ) : (
+                <span className="text-gray-600 rounded-md px-3 py-2 bg-gray-200 inline-block">
+                  Đang tải...
+                </span>
+              )}
+            </>
           )}
         </div>
       )}
+      <ResultEventList eventId={id} reload={reloadResult}></ResultEventList>
     </div>
   );
 };
