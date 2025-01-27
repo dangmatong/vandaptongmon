@@ -63,7 +63,7 @@ const Login = () => {
           <div className="login-body mb-6">
             <div className="my-2">
               <label className="text-gray-700" htmlFor="username">
-                Username:
+                Email:
               </label>
               <input
                 value={data.username}
@@ -82,7 +82,7 @@ const Login = () => {
             </div>
             <div className="my-2">
               <label className="text-gray-700" htmlFor="password">
-                Password:
+                Mật khẩu:
               </label>
               <input
                 value={data.password}

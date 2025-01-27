@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import eventApi from "../api/eventApi";
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
-import { compareTime } from "../utils";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { clearUserData } from "../utils/auth";
@@ -10,10 +9,8 @@ import { clearUserData } from "../utils/auth";
 const Game = () => {
   const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
-  const handleRedirect = (id, t) => {
-    if (compareTime(t)) {
-      navigate(`/game/${id}`);
-    }
+  const handleRedirect = (id) => {
+    navigate(`/game/${id}`);
   };
   const handleLogout = () => {
     clearUserData();
@@ -70,13 +67,8 @@ const Game = () => {
                     </div>
                     <div className="text-center">
                       <button
-                        onClick={() => handleRedirect(el._id, el.endTime)}
-                        className={
-                          "p-2 rounded-lg shadow-lg " +
-                          (compareTime(el.endTime)
-                            ? "bg-red-500 hover:bg-red-600"
-                            : "bg-gray-500 cursor-not-allowed")
-                        }
+                        onClick={() => handleRedirect(el._id)}
+                        className="p-2 rounded-lg shadow-lg bg-red-500 hover:bg-red-600"
                       >
                         Tham gia
                       </button>

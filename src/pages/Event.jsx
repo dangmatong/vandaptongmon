@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { useEffect, useState } from "react";
 // import GiftBoxAnimation from "../components/GiftBoxAnimation";
-import { confettiFireworks, calcTimeDuration } from "../utils";
+import { confettiFireworks, calcTimeDuration, getRandomInt } from "../utils";
 import WheelMovies from "../components/spinwheel/wheelthemes/WheelMovies";
 import eventApi from "../api/eventApi";
 import { useParams } from "react-router-dom";
@@ -40,6 +40,11 @@ const segments = [
   //   "Chúc may mắn lần sau!",
 ];
 
+const ramdomNewYearWishes = (messages) => {
+  let msg = messages[getRandomInt(0, messages.length - 1)];
+  return msg;
+};
+
 const Event = () => {
   const { id } = useParams();
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -55,16 +60,18 @@ const Event = () => {
   const [errMessage, setErrMessage] = useState("");
   const [timeDown, setTimeDown] = useState();
   const [userEvent, setUserEvent] = useState({});
+  const [eventData, setEventData] = useState({});
   const [titleTime, setTitleTime] = useState();
   const [expireEvent, setExpireEvent] = useState(false);
   const handleFinishTime = () => {
-    console.log("object");
+    location.reload();
   };
 
   const getEventDetail = async (id) => {
     try {
       const res = await eventApi.getEventDetail(id);
       const event = res.data?.event;
+      setEventData(event);
       setUserEvent(res.data?.userEvent);
       setTurnSpin(res.data?.userEvent?.numberReceived);
       if (calcTimeDuration(event.startTime) >= 0) {
@@ -72,7 +79,7 @@ const Event = () => {
       } else {
         if (calcTimeDuration(event.endTime) >= 0) {
           setTimeDown(event.endTime);
-          setTitleTime("Event kết thúc sau:");
+          setTitleTime("Event kết thúc sau");
         } else {
           setExpireEvent(true);
         }
@@ -166,7 +173,7 @@ const Event = () => {
         <>
           <div className="giftwheel">
             <div className="text-center text-lg font-bold text-teal-600 pt-6 uppercase">
-              🍀🍀🍀 Vòng quay may mắn 🍀🍀🍀
+              🍀 {eventData.name} 🍀
             </div>
             <WheelMovies
               items={items}
@@ -174,8 +181,10 @@ const Event = () => {
               onBeforeSpin={getResult}
             ></WheelMovies>
           </div>
-          <div className="text-center font-bold text-emerald-600">
-            Bạn còn {turnSpin != undefined ? turnSpin : "_"} lượt quay.
+          <div className="text-center font-bold text-white">
+            <span className="bg-red-400 px-2 py-1 rounded-lg">
+              Bạn còn {turnSpin != undefined ? turnSpin : "_"} lượt quay.
+            </span>
           </div>
           <Modal
             isOpen={modalIsOpen}
@@ -183,17 +192,31 @@ const Event = () => {
             contentLabel="Example Modal"
           >
             <div className="min-w-[80vw] md:min-w-[450px]">
-              <div className="flex justify-between">
-                <h2 className="text-xl font-bold">Kết quả thưởng</h2>
+              <div className="flex justify-between border-b pb-1">
+                <h2 className="text-xl font-bold text-gray-600">
+                  Kết quả thưởng
+                </h2>
                 <button onClick={closeModal}>X</button>
               </div>
-              <div className="body ">
-                {result.includes("VND") ? "Bạn nhận được: " : ""}
-                {result}
+              <div className="body py-4">
+                <div className="flex justify-center text-center">
+                  <div className="text-blue-400 mb-2">
+                    {result.includes("VND") ? "Bạn nhận được: " : ""}
+                    {result}
+                  </div>
+                </div>
+                <div className="flex justify-center text-center">
+                  <div className="text-center text-green-600 mb-2 max-w-80">
+                    <h4 className="underline">Lời chúc tết:</h4>
+                    <div className="text-orange-400">
+                      {ramdomNewYearWishes(eventData.newYearWishes)}
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="footer flex justify-end mt-4">
                 <button
-                  className="px-2 py-1 bg-gray-400 rounded-md"
+                  className="px-2 py-1 bg-gray-500 hover:bg-gray-600 text-white rounded-md"
                   onClick={closeModal}
                 >
                   Đóng
