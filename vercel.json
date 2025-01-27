@@ -13,7 +13,7 @@
       "dest": "/"
     },
     {
-      "src": "/game/:id",
+      "src": "/game/(?<id>+)",
       "dest": "/"
     },
     {
