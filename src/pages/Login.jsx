@@ -16,6 +16,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       confettiSnow();
@@ -95,8 +96,23 @@ const Login = () => {
                 name="password"
                 className="w-full px-2 py-1 rounded-md"
                 placeholder="Enter password"
-                type="text"
+                type={showPassword ? "text" : "password"}
               />
+            </div>
+            <div className="my-2 flex items-center">
+              <input
+                value={showPassword}
+                onChange={(e) => {
+                  setShowPassword(e.target.checked);
+                }}
+                className="mr-2 h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
+                id="showPw"
+                name="showPw"
+                type="checkbox"
+              />
+              <label className="text-gray-700" htmlFor="showPw">
+                Hiện password
+              </label>
             </div>
             <div className="message-err text-sm">
               <span className="text-red-500">{messageErr}</span>

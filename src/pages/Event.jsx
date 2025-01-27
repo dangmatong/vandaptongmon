@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ResultEventList from "./ResultEventList";
 import CountdownTimer from "../components/CountdownTimer";
-import dayjs from "dayjs";
 
 const customStyles = {
   content: {

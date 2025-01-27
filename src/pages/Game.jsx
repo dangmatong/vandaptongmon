@@ -4,13 +4,20 @@ import { motion } from "framer-motion";
 import dayjs from "dayjs";
 import { compareTime } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { clearUserData } from "../utils/auth";
 
 const Game = () => {
+  const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
   const handleRedirect = (id, t) => {
     if (compareTime(t)) {
       navigate(`/game/${id}`);
     }
+  };
+  const handleLogout = () => {
+    clearUserData();
+    setIsLoggedIn(false);
   };
 
   const [events, setEvents] = useState();
@@ -28,7 +35,13 @@ const Game = () => {
   }, []);
   return (
     <div className="p-4">
-      <div className="text-center text-lg font-bold text-teal-600 py-6 uppercase">
+      <div className="flex items-center justify-center p-4">
+        <button onClick={handleLogout} className="underline text-red-500">
+          Đăng xuất
+        </button>
+      </div>
+
+      <div className="text-center text-lg font-bold text-teal-600 pb-6 uppercase">
         🍀🍀🍀 Danh sách các event 🍀🍀🍀
       </div>
       <div>
