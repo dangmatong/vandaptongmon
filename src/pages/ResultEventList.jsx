@@ -20,6 +20,7 @@ const ResultEventList = ({ eventId, reload }) => {
   const [filters, setFilters] = useState({
     owner: 1,
     page: 1,
+    eventId: eventId,
   });
   const [pagination, setPagination] = useState({
     currentPage: 1,
