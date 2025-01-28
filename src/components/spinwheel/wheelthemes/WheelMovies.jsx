@@ -22,23 +22,26 @@ const WheelMovies = ({ items, onFinished, onBeforeSpin }) => {
   const [isSuccess, setIsSuccess] = useState(true);
 
   const handleLaunch = async () => {
-    let itemIndex;
-    if (onBeforeSpin) {
-      let { rs, idx } = await onBeforeSpin();
-      if (!rs) {
-        return;
+    if (isSuccess) {
+      setIsSuccess(false);
+      let itemIndex;
+      if (onBeforeSpin) {
+        let { rs, idx } = await onBeforeSpin();
+        if (!rs) {
+          setIsSuccess(true);
+          return;
+        }
+        itemIndex = idx;
+      } else {
+        itemIndex = getRandomInt(0, items.length - 1);
       }
-      itemIndex = idx;
-    } else {
-      itemIndex = getRandomInt(0, items.length - 1);
-    }
 
-    if (!isLaunched && isSuccess) {
-      setIsLaunched(true);
-      setTimeout(() => {
-        spinLuckey(itemIndex);
-        setIsSuccess(false);
-      }, 2000);
+      if (!isLaunched) {
+        setIsLaunched(true);
+        setTimeout(() => {
+          spinLuckey(itemIndex);
+        }, 2000);
+      }
     }
   };
 
