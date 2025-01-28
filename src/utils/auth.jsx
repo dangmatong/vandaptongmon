@@ -14,5 +14,7 @@ export const isTokenValid = (token) => {
 
 export const clearUserData = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("fullname");
+  localStorage.removeItem("username");
   console.log("Cleared user data.");
 };

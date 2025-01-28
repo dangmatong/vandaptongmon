@@ -10,7 +10,7 @@ const Login = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [isLogin, setIsLogin] = useState(false);
   const [messageErr, setMessageErr] = useState("");
   const [data, setData] = useState({
     username: "",
@@ -28,29 +28,37 @@ const Login = () => {
   }, []);
 
   const handleLogin = async () => {
-    var msg = "";
-    if (!data.username || !data.password) {
-      msg = "Vui lòng điền đầy đủ thông tin.";
-    }
+    if (!isLogin) {
+      var msg = "";
+      if (!data.username || !data.password) {
+        msg = "Vui lòng điền đầy đủ thông tin.";
+      }
 
-    if (msg) {
-      setMessageErr(msg);
-      return;
-    }
+      if (msg) {
+        setMessageErr(msg);
+        return;
+      }
 
-    try {
-      const { accessToken: token } = await authApi.login({
-        username: data.username,
-        password: data.password,
-      });
+      setIsLogin(true);
 
-      localStorage.setItem("token", token);
-      setIsLoggedIn(true);
-      const redirectTo = location.state?.from || "/";
-      navigate(redirectTo);
-    } catch (error) {
-      msg = error?.response.data?.msg;
-      setMessageErr(msg);
+      try {
+        const { data: user, accessToken: token } = await authApi.login({
+          username: data.username,
+          password: data.password,
+        });
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("fullname", user.fullname);
+        localStorage.setItem("username", user.username);
+        setIsLoggedIn(true);
+        const redirectTo = location.state?.from || "/";
+        navigate(redirectTo);
+      } catch (error) {
+        msg = error?.response.data?.msg;
+        setMessageErr(msg);
+      }
+
+      setIsLogin(false);
     }
   };
   return (
@@ -122,9 +130,9 @@ const Login = () => {
             <div className="text-center">
               <button
                 onClick={handleLogin}
-                className="bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-md text-white"
+                className="bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-md text-white mb-2"
               >
-                Login
+                {isLogin ? "Đang đăng nhập..." : "Đăng nhập"}
               </button>
             </div>
             <div className="text-center mt-3">

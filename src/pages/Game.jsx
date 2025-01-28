@@ -32,7 +32,11 @@ const Game = () => {
   }, []);
   return (
     <div className="p-4">
-      <div className="flex items-center justify-center p-4">
+      <div className="flex flex-col items-center justify-center p-4">
+        <div className="text-gray-600 text-center bg-amber-400 rounded-lg px-3 py-2 mb-2">
+          <div>Xin chào: {localStorage.getItem("fullname")}</div>
+          <span>({localStorage.getItem("username")})</span>
+        </div>
         <button onClick={handleLogout} className="underline text-red-500">
           Đăng xuất
         </button>
