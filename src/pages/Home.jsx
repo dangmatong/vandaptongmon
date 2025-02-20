@@ -154,18 +154,18 @@ const Home = () => {
               <div className="flex justify-center items-center my-2 gap-3">
                 <button
                   className="p-1 rounded-md shadow-md"
-                  title="Hủy hoại"
+                  title="Xóa bỏ"
                   onClick={handleRefresh}
                 >
-                  <img className="h-12" src={freshImg} alt="Hủy hoại" />
+                  <img className="h-12" src={freshImg} alt="Xóa bỏ" />
                 </button>
                 <span> {"<=>"} </span>
                 <button
                   className="p-1 rounded-md shadow-md"
-                  title="Ký ức"
+                  title="Dán chữ"
                   onClick={handlePaste}
                 >
-                  <img className="h-12" src={pasteImg} alt="Nhận ký ức" />
+                  <img className="h-12" src={pasteImg} alt="Dán chữ" />
                 </button>
               </div>
             </div>

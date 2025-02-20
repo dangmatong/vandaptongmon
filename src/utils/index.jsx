@@ -26,6 +26,9 @@ export const removeDiacritics = (str) =>
 
 export const addSpaceBeforeQuestionMark = (input) => {
   return input.replace(/(\S\?)/g, (match, group) => {
+    if (group[0] == "?" && group[1] == "?") {
+      return group;
+    }
     return group[0] + " ?";
   });
 };
