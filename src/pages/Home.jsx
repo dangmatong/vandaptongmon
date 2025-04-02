@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchExcelData } from "../controllers/ExcelController";
 import {
   removeDiacritics,
@@ -21,6 +21,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [excelData, setExcelData] = useState([]);
   const { sound } = useStore();
+  const inputRef = useRef(null);
   const { restart, pause } = useAudioPlayer(refreshAudio, false);
 
   const changeSearch = (val) => {
@@ -105,6 +106,7 @@ const Home = () => {
 
   const handleRefresh = () => {
     if (sound) restart();
+    inputRef.current.focus();
 
     setTimeout(() => {
       changeSearch("");
@@ -128,6 +130,8 @@ const Home = () => {
             <div>
               <div className="relative">
                 <input
+                  autoFocus
+                  ref={inputRef}
                   id="search"
                   value={text || ""}
                   className="peer w-full drop-shadow-md p-3 rounded-md ring-2 text-orange-500 ring-orange-400 focus:text-red-500 focus:ring-red-400 focus:outline-none"

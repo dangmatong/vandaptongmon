@@ -5,7 +5,7 @@
 @layer utilities {
   .bg-small-layout {
     background: linear-gradient(#5349494a, #9198e5);
-    background-image: url("./assets/images/hinh-nen-tet-43-1-696x1237.jpg");
+    background-image: url("./assets/images/hinh-tien-hiep-phong-canh.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -13,7 +13,7 @@
 
   .bg-large-layout {
     background: linear-gradient(#5349494a, #9198e5);
-    background-image: url("./assets/images/nentet.jpg");
+    background-image: url("./assets/images/anh-tien-hiep-the-gioi-huyen-bi.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

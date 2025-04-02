@@ -2,7 +2,7 @@ import { useStore } from "../utils/store";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
-import meodenAudio from "../assets/audio/tet.mp3";
+import meodenAudio from "../assets/audio/Nhạc mèo đen.mp3";
 import useAudioPlayer from "../hooks/useAudioPlayer";
 
 const Header = () => {
@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <div className="w-full text-center px-3 py-5">
       <div className="text-sm">
-        <div className="flex justify-center gap-3 font-bold text-rose-600 uppercase">
+        <div className="flex justify-center gap-3 font-bold text-yellow-500 uppercase">
           <Link className="underline" to="/">
             Vấn đáp
           </Link>

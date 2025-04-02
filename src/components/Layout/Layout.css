@@ -27,22 +27,22 @@ body {
   color: transparent;
 }
 
-.long-den {
-  background-image: url("../../assets/images/longden.gif");
+.long-den-r {
+  background-image: url("../../assets/images/anime-vtuber.gif");
   background-position: top;
   background-size: contain;
   background-repeat: no-repeat;
 }
 .chu-dong {
-  background-image: url("../../assets/images/chu-cmnm.gif");
+  background-image: url("../../assets/images/discord-discordgifemoji.gif");
   background-position: top;
   background-size: contain;
   background-repeat: no-repeat;
 }
-.phao-hoa {
-  background-image: url("../../assets/images/longden.gif");
+.long-den-l {
+  background-image: url("../../assets/images/miku-vocaloid.gif");
   background-position: top;
   background-size: contain;
   background-repeat: no-repeat;
-  transform: scaleX(-1);
+  /* transform: scaleX(-1); */
 }
