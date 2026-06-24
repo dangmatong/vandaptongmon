@@ -19,10 +19,18 @@ export const compareTime = (t) => {
 
 export const removeDiacritics = (str) =>
   str
+    .replace(/[\u200B-\u200D\uFEFF\u2060]/g, "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/đ/g, "d")
     .replace(/Đ/g, "D");
+
+export const normalizeSearchText = (str) =>
+  removeDiacritics(str)
+    .replace(/([?!.,:;])/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
 
 export const addSpaceBeforeQuestionMark = (input) => {
   return input.replace(/(\S\?)/g, (match, group) => {
@@ -43,7 +51,7 @@ export const highlightText = (line, term) => {
       </span>
     ) : (
       part
-    )
+    ),
   );
 };
 
@@ -66,47 +74,103 @@ export const highlightMatch = (line, term) => {
   );
 };
 
-const findAllOccurrences = (line, term) => {
-  const newTerm = addSpaceBeforeQuestionMark(term ? term.trim() : "");
-  const cleanLine = removeDiacritics(line).toLowerCase();
-  const cleanTerm = removeDiacritics(newTerm).toLowerCase();
-  let positions = [];
-  let startIndex = 0;
-
-  while (startIndex < cleanLine.length) {
-    const index = cleanLine.indexOf(cleanTerm, startIndex);
-    if (index === -1) break;
-    positions.push(index);
-    startIndex = index + cleanTerm.length; // Di chuyển qua từ khóa vừa tìm thấy
-  }
-  return positions;
+const isWordBoundary = (str, pos) => {
+  return pos < 0 || pos >= str.length || /\W/.test(str[pos]);
 };
 
 export const highlightMatchesWithPositions = (line, term) => {
-  const newTerm = addSpaceBeforeQuestionMark(term ? term.trim() : "");
-  if (!newTerm) return line; // Nếu không có từ khóa, trả về chuỗi gốc
+  if (!term?.trim()) return line;
 
-  const positions = findAllOccurrences(line, newTerm);
-  if (positions.length === 0) return line; // Nếu không tìm thấy, trả về chuỗi gốc
+  const words = [
+    ...new Set(
+      removeDiacritics(term)
+        .toLowerCase()
+        .split(/\s+/)
+        .filter((w) => w.length > 0),
+    ),
+  ];
+
+  if (!words.length) return line;
+
+  const normalizedLine = removeDiacritics(line).toLowerCase();
+
+  const matches = [];
+
+  words.forEach((word) => {
+    let start = 0;
+
+    while (true) {
+      const index = normalizedLine.indexOf(word, start);
+
+      if (index === -1) break;
+
+      // kiểm tra có phải là 1 từ độc lập không
+      const isMatch =
+        isWordBoundary(normalizedLine, index - 1) &&
+        isWordBoundary(normalizedLine, index + word.length);
+
+      if (!isMatch) {
+        start = index + 1;
+        continue;
+      }
+
+      let matchStart = index;
+      let matchEnd = index + word.length;
+
+      // ăn luôn space phía trước
+      if (matchStart > 0 && line[matchStart - 1] === " ") {
+        matchStart--;
+      }
+
+      // ăn luôn space phía sau
+      if (matchEnd < line.length && line[matchEnd] === " ") {
+        matchEnd++;
+      }
+
+      matches.push({
+        start: matchStart,
+        end: matchEnd,
+      });
+
+      start = index + word.length;
+    }
+  });
+
+  if (!matches.length) return line;
+
+  // sort theo vị trí
+  matches.sort((a, b) => a.start - b.start);
+
+  // merge các đoạn overlap
+  const merged = [];
+
+  matches.forEach((match) => {
+    const last = merged[merged.length - 1];
+
+    if (!last || match.start > last.end) {
+      merged.push(match);
+    } else {
+      last.end = Math.max(last.end, match.end);
+    }
+  });
 
   const elements = [];
   let currentIndex = 0;
 
-  positions.forEach((pos, index) => {
-    // Thêm phần trước đoạn khớp
-    elements.push(line.slice(currentIndex, pos));
-    // Thêm đoạn khớp được highlight
+  merged.forEach((match, index) => {
+    elements.push(line.slice(currentIndex, match.start));
+
     elements.push(
       <span key={index} className="bg-yellow-200 font-bold">
-        {line.slice(pos, pos + newTerm.length)}
-      </span>
+        {line.slice(match.start, match.end)}
+      </span>,
     );
-    // Cập nhật chỉ mục hiện tại
-    currentIndex = pos + newTerm.length;
+
+    currentIndex = match.end;
   });
 
-  // Thêm phần còn lại của chuỗi
   elements.push(line.slice(currentIndex));
+
   return elements;
 };
 
@@ -294,7 +358,7 @@ export const confettiSnow = () => {
   var scalar = 2;
   var flowers = ["🌸", "🍃", "🍂", "💮"];
   var shapes = flowers.map((el) =>
-    confetti.shapeFromText({ text: el, scalar })
+    confetti.shapeFromText({ text: el, scalar }),
   );
   var duration = 15 * 1000;
   var animationEnd = Date.now() + duration;

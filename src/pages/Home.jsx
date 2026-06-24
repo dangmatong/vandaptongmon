@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchExcelData } from "../controllers/ExcelController";
 import {
-  removeDiacritics,
+  normalizeSearchText,
   highlightMatchesWithPositions,
   addSpaceBeforeQuestionMark,
 } from "../utils";
@@ -61,11 +61,23 @@ const Home = () => {
     const handler = setTimeout(() => {
       let dataFilter = [];
       if (newText != undefined && newText.length >= 3) {
-        dataFilter = excelData.filter((el) =>
-          removeDiacritics(el.question.toLowerCase()).includes(
-            removeDiacritics(newText.toLowerCase())
-          )
-        );
+        const searchWords = normalizeSearchText(newText.toLowerCase())
+          .split(/\s+/)
+          .filter(Boolean);
+        dataFilter = excelData
+          .map((item) => {
+            const question = normalizeSearchText(item.question.toLowerCase());
+            const score = searchWords.reduce((count, word) => {
+              return count + (question.includes(word) ? 1 : 0);
+            }, 0);
+
+            return {
+              ...item,
+              score,
+            };
+          })
+          .filter((item) => item.score > 0)
+          .sort((a, b) => b.score - a.score);
       }
       setLoading(false);
       setData(dataFilter);
@@ -181,6 +193,12 @@ const Home = () => {
                 data.map((item) => (
                   <ul key={item.id} className="w-full">
                     <li className="p-4 bg-gray-200 rounded-md w-full mb-3">
+                      <p className="text-gray-400 font-bold">
+                        Điểm khớp:{" "}
+                        <span className="rounded-full text-red-500 bg-gray-300 px-2 py-0.5">
+                          {item.score}
+                        </span>
+                      </p>
                       <h3 className="text-lg font-bold text-gray-500">
                         [Film] - {item.movieName}
                       </h3>
