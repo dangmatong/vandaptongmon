@@ -32,14 +32,8 @@ export const normalizeSearchText = (str) =>
     .trim()
     .toLowerCase();
 
-export const addSpaceBeforeQuestionMark = (input) => {
-  return input.replace(/(\S\?)/g, (match, group) => {
-    if (group[0] == "?" && group[1] == "?") {
-      return group;
-    }
-    return group[0] + " ?";
-  });
-};
+export const addSpaceBeforeQuestionMark = (input) =>
+  input.replace(/(?<![\s?])\?/g, " ?");
 
 export const highlightText = (line, term) => {
   if (!term) return line; // Nếu không có từ khóa, trả về dòng gốc
@@ -78,10 +72,10 @@ const isWordBoundary = (str, pos) => {
   return pos < 0 || pos >= str.length || /\W/.test(str[pos]);
 };
 
-export const highlightMatchesWithPositions = (line, term) => {
-  if (!term?.trim()) return line;
+const getSearchWords = (term) => {
+  if (!term?.trim()) return [];
 
-  const words = [
+  return [
     ...new Set(
       removeDiacritics(term)
         .toLowerCase()
@@ -89,7 +83,45 @@ export const highlightMatchesWithPositions = (line, term) => {
         .filter((w) => w.length > 0),
     ),
   ];
+};
 
+const countWholeWordMatches = (normalizedLine, word) => {
+  let start = 0;
+  let count = 0;
+
+  while (true) {
+    const index = normalizedLine.indexOf(word, start);
+
+    if (index === -1) return count;
+
+    if (
+      isWordBoundary(normalizedLine, index - 1) &&
+      isWordBoundary(normalizedLine, index + word.length)
+    ) {
+      count++;
+      start = index + word.length;
+    } else {
+      start = index + 1;
+    }
+  }
+};
+
+export const calculateSearchScore = (line, term) => {
+  const words = getSearchWords(term);
+  if (!words.length) return 0;
+
+  const normalizedLine = removeDiacritics(line).toLowerCase();
+
+  return words.reduce(
+    (count, word) => count + countWholeWordMatches(normalizedLine, word),
+    0,
+  );
+};
+
+export const highlightMatchesWithPositions = (line, term) => {
+  term = addSpaceBeforeQuestionMark(term ? term.trim() : "");
+
+  const words = getSearchWords(term);
   if (!words.length) return line;
 
   const normalizedLine = removeDiacritics(line).toLowerCase();
@@ -104,12 +136,10 @@ export const highlightMatchesWithPositions = (line, term) => {
 
       if (index === -1) break;
 
-      // kiểm tra có phải là 1 từ độc lập không
-      const isMatch =
-        isWordBoundary(normalizedLine, index - 1) &&
-        isWordBoundary(normalizedLine, index + word.length);
-
-      if (!isMatch) {
+      if (
+        !isWordBoundary(normalizedLine, index - 1) ||
+        !isWordBoundary(normalizedLine, index + word.length)
+      ) {
         start = index + 1;
         continue;
       }

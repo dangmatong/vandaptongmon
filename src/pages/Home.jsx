@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchExcelData } from "../controllers/ExcelController";
 import {
-  normalizeSearchText,
+  calculateSearchScore,
   highlightMatchesWithPositions,
   addSpaceBeforeQuestionMark,
 } from "../utils";
@@ -61,21 +61,11 @@ const Home = () => {
     const handler = setTimeout(() => {
       let dataFilter = [];
       if (newText != undefined && newText.length >= 3) {
-        const searchWords = normalizeSearchText(newText.toLowerCase())
-          .split(/\s+/)
-          .filter(Boolean);
         dataFilter = excelData
-          .map((item) => {
-            const question = normalizeSearchText(item.question.toLowerCase());
-            const score = searchWords.reduce((count, word) => {
-              return count + (question.includes(word) ? 1 : 0);
-            }, 0);
-
-            return {
-              ...item,
-              score,
-            };
-          })
+          .map((item) => ({
+            ...item,
+            score: calculateSearchScore(item.question, newText),
+          }))
           .filter((item) => item.score > 0)
           .sort((a, b) => b.score - a.score);
       }
